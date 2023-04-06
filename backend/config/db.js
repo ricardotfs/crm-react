@@ -39,9 +39,7 @@ const getUsers = async (sql) =>{
     return results;
 
   } catch (error) {
-    
-  }finally{
-    //connection.end();
+    console.lo
   }
 };
 
