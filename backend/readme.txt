@@ -9,3 +9,6 @@
     mssql - ferramenta para trabalhar com banco de dados sqlserver 
     multer - trabalhar com upload de imagem
  */
+
+baixar mysql
+https://dev.mysql.com/downloads/installer/
