@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql2');
+const {getUsers} = require('../config/db.js') 
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -14,17 +14,11 @@ const register = async(req,res) =>{
     const {name,email,password} = req.body;
  
     //const request = new mysql.Request();
-     const teste = {id:10};
-  const request = new mysql.Request();
-    request.query('SELECT * FROM crmreactdb.teste', (err, result) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log(result.recordset[0].name)
-        }
-    });
 
-    res.status(200).json(teste);
+  //const request = new mysql.Request();
+    const teste = await getUsers('SELECT * FROM crmreactdb.teste');
+
+    return res.status(200).json(teste);
 }
 
 module.exports = {

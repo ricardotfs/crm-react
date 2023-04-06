@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const util = require('util');
 
 const dbServer = process.env.DB_SERVER;
 const dbDatabase= process.env.DB_DATABASE;
@@ -27,6 +28,25 @@ const conn = async () =>{
       });
 };
 
+// Promisify the query method
+const query = util.promisify(connection.query).bind(connection);
+
+
+const getUsers = async (sql) =>{
+    
+  try {
+    const results = await query(sql);
+    return results;
+
+  } catch (error) {
+    
+  }finally{
+    connection.end();
+  }
+};
+
 conn();
 
-module.exports = conn;
+module.exports ={
+    getUsers,
+} 
