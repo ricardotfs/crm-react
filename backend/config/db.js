@@ -41,7 +41,7 @@ const getUsers = async (sql) =>{
   } catch (error) {
     
   }finally{
-    connection.end();
+    //connection.end();
   }
 };
 
