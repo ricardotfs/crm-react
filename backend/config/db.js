@@ -32,19 +32,21 @@ const conn = async () =>{
 const query = util.promisify(connection.query).bind(connection);
 
 
-const getUsers = async (sql) =>{
+const executeQuery = async (sql) =>{
     
+
   try {
     const results = await query(sql);
+
     return results;
 
   } catch (error) {
-    console.lo
+    console.log(error)
   }
 };
 
 conn();
 
 module.exports ={
-    getUsers,
+  executeQuery,
 } 
