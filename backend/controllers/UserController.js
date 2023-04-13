@@ -39,6 +39,29 @@ const register = async(req,res) =>{
     })
 }
 
+const login  = async (req,res) =>{
+    const {email,password} = req.body;
+
+    const users = await executeQuery(`SELECT Id,senha  FROM crmreactdb.Usuario Where Email = '${email}'`);
+
+    if(users.length === 0){
+        res.status(404).json({errors:["Usuário não encontrado."]})
+        return;
+    }
+
+    if(!(await bcrypt.compare(password,users[0].senha)) ){
+        res.status(422).json({errors:['Senha inválida']});
+        return;
+    }
+    
+    res.status(201).json({
+        id:users[0].id,
+        //profileImage:user.profileImage,
+        token:generateToken(users[0].id)
+    });
+}
+
 module.exports = {
     register,
+    login,
 }
