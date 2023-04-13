@@ -61,7 +61,45 @@ const login  = async (req,res) =>{
     });
 }
 
+const update = async (req,res)=>{
+
+    const {name,password} = req.body
+
+    let profileImage = null
+
+    if(req.file){
+        profileImage = req.file.filename
+    }
+
+    const reqUser = req.user;
+    const users = await executeQuery(`SELECT Id,nome,senha,imagem FROM crmreactdb.Usuario Where Id = '${reqUser.id}'`);
+    if(users.length === 0){
+        return;
+    }
+    if(name){
+        users[0].nome = name;
+    }
+    if(password){
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password,salt);
+
+        users[0].senha = passwordHash;
+    }
+    if(profileImage){
+        users[0].imagem = profileImage
+    }
+    await executeQuery(`update crmreactdb.Usuario set 
+                                Nome = '${ users[0].nome}', 
+                                Email = '${ users[0].email}', 
+                                Imagem = '${ users[0].imagem}' 
+                        where id = '${reqUser.id}' `);
+
+    return res.status(200).json(users[0]);
+}
+
+
 module.exports = {
     register,
     login,
+    update,
 }
