@@ -1,0 +1,4 @@
+
+react-icons // disponibiliza icones no app
+react-rounter-dom // para rotear as paginas
+@reduxjs/toolkit // gerencias os estatos de uma forma mais facil 

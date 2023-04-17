@@ -42,7 +42,7 @@ const register = async(req,res) =>{
 const login  = async (req,res) =>{
     const {email,password} = req.body;
 
-    const users = await executeQuery(`SELECT Id,senha  FROM crmreactdb.Usuario Where Email = '${email}'`);
+    const users = await executeQuery(`SELECT Id,senha FROM crmreactdb.Usuario Where Email = '${email}'`);
 
     if(users.length === 0){
         res.status(404).json({errors:["Usuário não encontrado."]})
