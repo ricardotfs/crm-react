@@ -42,7 +42,7 @@ const register = async(req,res) =>{
 const login  = async (req,res) =>{
     const {email,password} = req.body;
 
-    const users = await executeQuery(`SELECT Id,senha FROM crmreactdb.Usuario Where Email = '${email}'`);
+    const users = await executeQuery(`SELECT id,senha FROM crmreactdb.Usuario Where Email = '${email}'`);
 
     if(users.length === 0){
         res.status(404).json({errors:["Usuário não encontrado."]})
@@ -54,6 +54,12 @@ const login  = async (req,res) =>{
         return;
     }
     
+    console.log({
+        id:users[0].id,
+        //profileImage:user.profileImage,
+        token:generateToken(users[0].id)
+    });
+
     res.status(201).json({
         id:users[0].id,
         //profileImage:user.profileImage,
