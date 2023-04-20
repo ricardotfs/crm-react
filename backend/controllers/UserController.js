@@ -54,12 +54,6 @@ const login  = async (req,res) =>{
         return;
     }
     
-    console.log({
-        id:users[0].id,
-        //profileImage:user.profileImage,
-        token:generateToken(users[0].id)
-    });
-
     res.status(201).json({
         id:users[0].id,
         //profileImage:user.profileImage,
