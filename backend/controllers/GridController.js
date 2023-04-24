@@ -3,7 +3,7 @@ const {executeQuery} = require('../config/db.js')
 
 const getAllActivity = async(req,res) =>{
 
-    const {idTipoCadastro} = req.params;
+    const {idTipoCadastro} = req.body;
 
     const fields = await executeQuery(`SELECT 
                                             propriedade.IdPropriedadeGrupo,
@@ -14,8 +14,8 @@ const getAllActivity = async(req,res) =>{
                                         inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
                                         where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})`);
 
-    console.log(fields)                                        ;
-    
+                                    ;
+
     if(fields.length === 0){
         return;
     }
@@ -23,7 +23,7 @@ const getAllActivity = async(req,res) =>{
     let queryFields = ' propriedaderespostaticket.IdUser Id';
 
     fields.forEach(item => {
-        queryFields = queryFields + `,MAX(CASE WHEN propriedade.Nome = '${item.Nome}' THEN propriedaderespostaticket.Resposta END) AS ${item.Nome}' `
+        queryFields = queryFields + `,MAX(CASE WHEN propriedade.Nome = '${item.Nome}' THEN propriedaderespostaticket.Resposta END) AS ${item.Nome} `
     });
 
 
@@ -34,7 +34,10 @@ const getAllActivity = async(req,res) =>{
                         left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
                     GROUP BY propriedaderespostaticket.IdUser;`;
 
-   let result = executeQuery(query);
+  
+
+   let result = await executeQuery(query);
+
 
    return res.status(200).json(result);
 }
