@@ -24,9 +24,8 @@ const getAllActivity = async(req,res) =>{
     let queryFields = ' propriedaderespostaticket.IdUser Id';
 
     fields.forEach(item => {
-        queryFields = queryFields + `,MAX(CASE WHEN propriedade.Nome = '${item.Nome}' THEN propriedaderespostaticket.Resposta END) AS ${item.Nome}_${item.IdPropriedade}_${item.IdPropriedadeGrupo} `
+        queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '_'  + item.IdPropriedade + '_' + item.IdPropriedadeGrupo + '` '
     });
-
 
     let query  = `  SELECT 
                         ${queryFields}
