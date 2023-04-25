@@ -3,7 +3,7 @@ const {executeQuery} = require('../config/db.js')
 
 const getAllActivity = async(req,res) =>{
 
-    const {idTipoCadastro} = req.body;
+    const {idTipoCadastro,page,sizePage} = req.body;
 
     const fields = await executeQuery(`SELECT 
                                             propriedade.Id IdPropriedade,
@@ -32,7 +32,8 @@ const getAllActivity = async(req,res) =>{
                     from propriedadegrupo 
                         inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
                         left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
-                    GROUP BY propriedaderespostaticket.IdUser;`;
+                    GROUP BY propriedaderespostaticket.IdUser
+                     Limit (${page} - 1), ${sizePage};`;
 
   
 
