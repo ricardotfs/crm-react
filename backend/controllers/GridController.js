@@ -4,7 +4,8 @@ const {executeQuery} = require('../config/db.js')
 const getAllActivity = async(req,res) =>{
 
     const {idTipoCadastro,page,sizePage} = req.body;
-
+    const pageAux = page - 1;
+    
     const fields = await executeQuery(`SELECT 										
                                             propriedade.Nome,
                                             propriedade.Nome Title,
@@ -25,7 +26,7 @@ const getAllActivity = async(req,res) =>{
     let queryFields = ' propriedaderespostaticket.IdUser Id';
 
     fields.forEach(item => {
-        queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '_'  + item.IdPropriedade + '_' + item.IdPropriedadeGrupo + '` '
+        queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '` '
     });
 
     let query  = `  SELECT 
@@ -33,15 +34,14 @@ const getAllActivity = async(req,res) =>{
                     from propriedadegrupo 
                         inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
                         left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
+                    where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
                     GROUP BY propriedaderespostaticket.IdUser
-                     Limit 0, ${sizePage};`;
+                     Limit ${pageAux}, ${sizePage};`;
 
   
     let queryCount  = ` SELECT 
                             count(1)  totalCount
-                        from propriedadegrupo 
-                            inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                            left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id;`;
+                        from Ticket;`;
 
     const result = await executeQuery(query);
     const totalCount = await executeQuery(queryCount);
