@@ -5,17 +5,18 @@ const getAllActivity = async(req,res) =>{
 
     const {idTipoCadastro,page,sizePage} = req.body;
 
-    const fields = await executeQuery(`SELECT 
-                                            propriedade.Id IdPropriedade,
-                                            propriedade.IdPropriedadeGrupo,
-                                            propriedadegrupo.Ordem GrupoOrdem,
+    const fields = await executeQuery(`SELECT 										
                                             propriedade.Nome,
-                                            propriedade.Ordem PropriedadeOrdem
-                                        from propriedadegrupo 
-                                        inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                        where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})`);
-
-                                    ;
+                                            propriedade.Nome Title,
+                                            propriedade.Id IdPropriedade,
+                                            propriedade.IdPropriedadeGrupo idPropriedadeGrupo,
+                                            propriedadegrupo.Nome nomeGrupo,
+                                            IFNULL(propriedadegrupo.Ordem,0) GrupoOrdem,
+                                            IFNULL(propriedade.Ordem,0) PropriedadeOrdem,
+                                            '' resposta
+                                        FROM propriedadegrupo 
+                                            INNER JOIN propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
+                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})`);
 
     if(fields.length === 0){
         return res.status(200).json([]);
@@ -33,14 +34,24 @@ const getAllActivity = async(req,res) =>{
                         inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
                         left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
                     GROUP BY propriedaderespostaticket.IdUser
-                     Limit (${page} - 1), ${sizePage};`;
+                     Limit 0, ${sizePage};`;
 
   
+    let queryCount  = ` SELECT 
+                            count(1)  totalCount
+                        from propriedadegrupo 
+                            inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
+                            left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id;`;
 
-   let result = await executeQuery(query);
+    const result = await executeQuery(query);
+    const totalCount = await executeQuery(queryCount);
 
 
-   return res.status(200).json(result);
+   return res.status(200).json({
+        columns:fields,
+        rows:result,
+        totalCount:totalCount[0].totalCount
+   });
 }
 
 module.exports ={
