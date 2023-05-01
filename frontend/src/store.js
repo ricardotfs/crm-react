@@ -1,9 +1,10 @@
-import {configureStore} from '@reduxjs/toolkit'
-import authReducer from './slice/authSlices'
+import {configureStore} from '@reduxjs/toolkit';
+import authReducer from './slice/authSlices';
+import gridReducer from './slice/gridSlices';
 
 export const store = configureStore({
     reducer:{
-         auth: authReducer,
-
+        auth: authReducer,
+        grid:gridReducer
     },
 })

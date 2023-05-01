@@ -1,84 +1,56 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
-import {
-  PagingState,
-  CustomPaging,
-} from '@devexpress/dx-react-grid';
+import { PagingState, CustomPaging } from '@devexpress/dx-react-grid';
+import {Grid,Table,TableHeaderRow,PagingPanel} from '@devexpress/dx-react-grid-material-ui';
 
-import {
-  Grid,
-  Table,
-  TableHeaderRow,
-  PagingPanel,
-} from '@devexpress/dx-react-grid-material-ui';
+//import { Loading } from '../../../theme-sources/material-ui/components/loading';
 
+//hooks
+import {useSelector,useDispatch} from 'react-redux'
+
+//slice
+import { gridData } from '../../slice/gridSlices';
 
 export default () => {
+  
+  const dispatch = useDispatch()
 
-
-  const [totalCount, setTotalCount] = useState(1000);
-  const [pageSize] = useState(6);
+  const {columns,rows,totalCount,loading} = useSelector((state) => state.grid)
+  const [currentPageSize,setCurrentPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [lastQuery, setLastQuery] = useState();
-  const [rows, setRows] = useState([]);
+  const [pageSizes] = useState([5, 10, 15, 50]);
 
-  const [columns] = useState([
-    { name: 'name', title: 'Name' ,idPropriedade:0,idPropriedadeGrupo:0,nomeGrupo:"",resposta: ""},
-    { name: 'gender', title: 'Gender' },
-    { name: 'city', title: 'City' },
-    { name: 'car', title: 'Car' },
-  ]);
-
-  const getQueryString = () => (
-    `${URL}&take=${pageSize}&skip=${pageSize * currentPage}`
-  );
   const loadData = () => {
-    const queryString = getQueryString();
-    if (queryString !== lastQuery && !loading) {
-      setLoading(true);
-      fetch(queryString)
-        .then(response => response.json())
-        .then(({ data, totalCount: newTotalCount }) => {
-          setRows(data);
-          setTotalCount(newTotalCount);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-      setLastQuery(queryString);
-    }
+
+    
+    const filter = {idTipoCadastro:6,page:currentPage,sizePage: currentPageSize};
+
+
+    dispatch(gridData(filter));
+
   };
-  const a = [
-    {gender: 'Female', name: 'Sandra', city: 'Las Vegas', car: 'Audi A4'},
-    {gender: 'Male', name: 'Paul', city: 'Paris', car: 'Nissan Altima'},
-    {gender: 'Male', name: 'Mark', city: 'Paris', car: 'Honda Accord'},
-    {gender: 'Female', name: 'Sandra', city: 'Las Vegas', car: 'Audi A4'},
-    {gender: 'Male', name: 'Paul', city: 'Paris', car: 'Nissan Altima'},
-    {gender: 'Male', name: 'Mark', city: 'Paris', car: 'Honda Accord'}
 
-  ];
+  useEffect(() => {
+    loadData();
+  },[dispatch,currentPageSize,currentPage]);
 
-  setRows(a);
+if(loading){
+  return <p>Carregando.....</p>  
+}
 
   return (
     <Paper style={{ position: 'relative' }}>
-    <Grid
-      rows={rows}
-      columns={columns}
-    >
-      <PagingState
-        currentPage={currentPage}
-        onCurrentPageChange={setCurrentPage}
-        pageSize={pageSize}
-      />
-      <CustomPaging
-        totalCount={totalCount}
-      />
-      <Table />
-      <TableHeaderRow />
-      <PagingPanel />
-    </Grid>
-  
-  </Paper>
+      <Grid rows={rows} columns={columns}>
+        <PagingState
+          currentPage={currentPage} onCurrentPageChange={setCurrentPage} defaultPageSize={5} />
+        <CustomPaging totalCount={totalCount} />
+        <Table />
+        <TableHeaderRow />
+        <PagingPanel pageSizes={pageSizes} onPageSizeChange={setCurrentPageSize} />
+      </Grid>
+      {/* {loading && <Loading />} */}
+    </Paper>
   );
 };
+

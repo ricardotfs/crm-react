@@ -4,7 +4,6 @@ const {executeQuery} = require('../config/db.js')
 const getAllActivity = async(req,res) =>{
 
     const {idTipoCadastro,page,sizePage} = req.body;
-    const pageAux = page - 1;
     
     const fields = await executeQuery(`SELECT 										
                                             propriedade.Nome,
@@ -36,16 +35,14 @@ const getAllActivity = async(req,res) =>{
                         left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
                     where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
                     GROUP BY propriedaderespostaticket.IdUser
-                     Limit ${pageAux}, ${sizePage};`;
+                     Limit ${(page * sizePage)}, ${sizePage};`;
 
-  
     let queryCount  = ` SELECT 
                             count(1)  totalCount
                         from Ticket;`;
 
     const result = await executeQuery(query);
     const totalCount = await executeQuery(queryCount);
-
 
    return res.status(200).json({
         columns:fields,
