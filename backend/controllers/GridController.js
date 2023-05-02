@@ -5,7 +5,10 @@ const getAllActivity = async(req,res) =>{
 
     const {idTipoCadastro,page,sizePage} = req.body;
     
-    const fields = await executeQuery(`SELECT 										
+    const fields = await executeQuery(`
+                                        SELECT 'Token' Nome, 'Token' Title, 0 IdPropriedade,0 idPropriedadeGrupo, 0 nomeGrupo, 0 GrupoOrdem, 0 PropriedadeOrdem ,'' resposta                     
+                                        union all 
+                                        SELECT 										
                                             propriedade.Nome,
                                             propriedade.Nome Title,
                                             propriedade.Id IdPropriedade,
@@ -16,7 +19,7 @@ const getAllActivity = async(req,res) =>{
                                             '' resposta
                                         FROM propriedadegrupo 
                                             INNER JOIN propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})`);
+                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro}) `);
 
     if(fields.length === 0){
         return res.status(200).json([]);
@@ -30,9 +33,11 @@ const getAllActivity = async(req,res) =>{
 
     let query  = `  SELECT 
                         ${queryFields}
+                        ,ticket.Token
                     from propriedadegrupo 
                         inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                        left join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
+                        inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
+                        inner join ticket on ticket.id = propriedaderespostaticket.IdUser
                     where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
                     GROUP BY propriedaderespostaticket.IdUser
                      Limit ${(page * sizePage)}, ${sizePage};`;
