@@ -19,13 +19,13 @@ export default () => {
   const {columns,rows,totalCount,loading} = useSelector((state) => state.grid)
   const [currentPageSize,setCurrentPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSizes] = useState([5, 10, 15, 50]);
+  const [pageSizes] = useState([5,10,15,50]);
 
   const loadData = () => {
 
+    console.log(currentPageSize);
     
     const filter = {idTipoCadastro:6,page:currentPage,sizePage: currentPageSize};
-
 
     dispatch(gridData(filter));
 
@@ -33,7 +33,7 @@ export default () => {
 
   useEffect(() => {
     loadData();
-  },[dispatch,currentPageSize,currentPage]);
+  },[currentPageSize,currentPage]);
 
 if(loading){
   return <p>Carregando.....</p>  
@@ -43,11 +43,11 @@ if(loading){
     <Paper style={{ position: 'relative' }}>
       <Grid rows={rows} columns={columns}>
         <PagingState
-          currentPage={currentPage} onCurrentPageChange={setCurrentPage} defaultPageSize={5} />
+          currentPage={currentPage} onCurrentPageChange={setCurrentPage}   onPageSizeChange={setCurrentPageSize}/>
         <CustomPaging totalCount={totalCount} />
         <Table />
         <TableHeaderRow />
-        <PagingPanel pageSizes={pageSizes} onPageSizeChange={setCurrentPageSize} />
+        <PagingPanel pageSizes={pageSizes} />
       </Grid>
       {/* {loading && <Loading />} */}
     </Paper>
