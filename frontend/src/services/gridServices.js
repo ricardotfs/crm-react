@@ -1,8 +1,8 @@
 import {api,requestConfig} from '../utils/Config'
 
-const getData = async(data) =>{
+const getData = async(data,token) =>{
 
-    const config = requestConfig('POST',data)
+    const config = requestConfig('POST',data,token)
 
     try {
 

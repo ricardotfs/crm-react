@@ -14,8 +14,8 @@ const initialState = {
 export const gridData = createAsyncThunk('grid/getAll',
     async(filter,thunkAPI) =>{
 
-        //const token = thunkAPI.getState().auth.user.token;
-        const data = await gridService.getData(filter);
+        const token = thunkAPI.getState().auth.user.token;
+        const data = await gridService.getData(filter,token);
 
         return data;
     }

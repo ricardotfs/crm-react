@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.JWT_SECRET
-
+const {executeQuery} = require('../config/db.js') 
 
 const authGuard = async(req,res,next) =>{
 
@@ -15,7 +15,7 @@ const authGuard = async(req,res,next) =>{
 
         const verifed = jwt.verify(token,jwtSecret);
 
-        req.user = await User.findById(verifed.id).select('-password')
+        req.user = await executeQuery(`SELECT id,Nome FROM crmreactdb.Usuario Where id = ${verifed.id}`);
         
         next();
         
