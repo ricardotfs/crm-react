@@ -19,8 +19,12 @@ const Grid = () => {
     return Object.keys(obj).map(key => ({ field: key }))
   }
   
-  const defColumnDefs = { flex: 1 }
-
+  const defColumnDefs = {
+    resizable: true,
+    sortable: true,
+    filter: true,
+    flex: 1
+  };
   const onGridReady = (params) => {
     setGridApi(params)
     params.api.setColumnDefs(getDynamicColumns(rows[0]))
@@ -52,6 +56,9 @@ if(loading){
         <AgGridReact
           rowData={rows}
           defaultColDef={defColumnDefs}
+          paginationPageSize={pageSizes}
+          pagination={true}
+          totalCount={totalCount}
           onGridReady={onGridReady} />
       </div>
     </div>
