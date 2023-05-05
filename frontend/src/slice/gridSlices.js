@@ -37,11 +37,6 @@ export const gridSlice = createSlice({
             state.loading  = false;
             state.error = null;
             state.success = true;
-            state.columns = action.payload.columns.map(column=> {
-                column.name = column.Nome;
-                column.title = column.Title;
-                return column;
-            });
             state.rows = action.payload.rows;
             state.totalCount = action.payload.totalCount;
         })

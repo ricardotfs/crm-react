@@ -50,7 +50,6 @@ const getAllActivity = async(req,res) =>{
     const totalCount = await executeQuery(queryCount);
 
    return res.status(200).json({
-        columns:fields,
         rows:result,
         totalCount:totalCount[0].totalCount
    });

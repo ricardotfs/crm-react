@@ -1,22 +1,31 @@
-
 import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
-import { PagingState, CustomPaging } from '@devexpress/dx-react-grid';
-import {Grid,Table,TableHeaderRow,PagingPanel} from '@devexpress/dx-react-grid-material-ui';
-
-//import { Loading } from '../../../theme-sources/material-ui/components/loading';
-
+//css
+import '../../../node_modules/ag-grid-community/styles/ag-grid.css';
+import '../../../node_modules/ag-grid-community/styles/ag-theme-alpine.css';
+//componentes
+import { AgGridReact } from 'ag-grid-react';
 //hooks
 import {useSelector,useDispatch} from 'react-redux'
-
 //slice
 import { gridData } from '../../slice/gridSlices';
 
-export default () => {
+const Grid = () => {
   
   const dispatch = useDispatch()
+  const [gridApi, setGridApi] = useState()
+  const {rows,totalCount,loading} = useSelector((state) => state.grid)
+  
+  const getDynamicColumns = (obj) => {
+    return Object.keys(obj).map(key => ({ field: key }))
+  }
+  
+  const defColumnDefs = { flex: 1 }
 
-  const {columns,rows,totalCount,loading} = useSelector((state) => state.grid)
+  const onGridReady = (params) => {
+    setGridApi(params)
+    params.api.setColumnDefs(getDynamicColumns(rows[0]))
+  }
+
   const [currentPageSize,setCurrentPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSizes] = useState([5,10,15,50]);
@@ -24,9 +33,7 @@ export default () => {
   const loadData = () => {
 
     console.log(currentPageSize);
-    
     const filter = {idTipoCadastro:6,page:currentPage,sizePage: currentPageSize};
-
     dispatch(gridData(filter));
 
   };
@@ -40,17 +47,15 @@ if(loading){
 }
 
   return (
-    <Paper style={{ position: 'relative' }}>
-      <Grid rows={rows} columns={columns}>
-        <PagingState
-          currentPage={currentPage} onCurrentPageChange={setCurrentPage}   onPageSizeChange={setCurrentPageSize}/>
-        <CustomPaging totalCount={totalCount} />
-        <Table />
-        <TableHeaderRow />
-        <PagingPanel pageSizes={pageSizes} />
-      </Grid>
-      {/* {loading && <Loading />} */}
-    </Paper>
+     <div className="grid">
+      <div className="ag-theme-alpine" style={{ height: 400 }}>
+        <AgGridReact
+          rowData={rows}
+          defaultColDef={defColumnDefs}
+          onGridReady={onGridReady} />
+      </div>
+    </div>
   );
 };
 
+export default Grid;
