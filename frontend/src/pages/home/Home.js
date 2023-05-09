@@ -1,11 +1,11 @@
 import React from 'react'
 import './Home.css'
-import PagingGrid from '../../components/grid/Grid'
+import GridRDO from '../../components/grid/GridRDO'
 const Home = () => {
   return (
     <div id='home'>
         <h1>Home</h1>
-        <PagingGrid/>
+        <GridRDO/>
     </div>
   )
 }
