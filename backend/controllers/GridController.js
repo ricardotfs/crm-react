@@ -3,11 +3,13 @@ const {executeQuery} = require('../config/db.js')
 
 const getAllActivity = async(req,res) =>{
 
-    const {idTipoCadastro,page,sizePage} = req.body;
-    
+    const {idTipoCadastro,page,sizePage,sorting} = req.body;
+     
+    const column = sorting[0].columnName;
+    const direction = sorting[0].direction;
+
     const fields = await executeQuery(`
-                                        SELECT 'Token' Nome, 'Token' Title, 0 IdPropriedade,0 idPropriedadeGrupo, 0 nomeGrupo, 0 GrupoOrdem, 0 PropriedadeOrdem ,'' resposta                     
-                                        union all 
+
                                         SELECT 										
                                             propriedade.Nome,
                                             propriedade.Nome Title,
@@ -31,16 +33,19 @@ const getAllActivity = async(req,res) =>{
         queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '` '
     });
 
-    let query  = `  SELECT 
-                        ${queryFields}
-                        ,ticket.Token
-                    from propriedadegrupo 
-                        inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                        inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
-                        inner join ticket on ticket.id = propriedaderespostaticket.IdUser
-                    where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
-                    GROUP BY propriedaderespostaticket.IdUser
-                     Limit ${(page * sizePage)}, ${sizePage};`;
+    let query  = ` 	SELECT * FROM (
+                        SELECT 
+                            ${queryFields}
+                            ,ticket.Token
+                        from propriedadegrupo 
+                            inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
+                            inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
+                            inner join ticket on ticket.id = propriedaderespostaticket.IdUser
+                        where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
+                        GROUP BY propriedaderespostaticket.IdUser
+                        ) as temp
+                            order by temp.${column} ${direction}
+                            Limit ${(page * sizePage)}, ${sizePage};`;
 
     let queryCount  = ` SELECT 
                             count(1)  totalCount

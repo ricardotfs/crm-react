@@ -31,19 +31,15 @@ const GridRDO = () => {
   const dispatch = useDispatch()
   const {rows:rowData,totalCount:totalCountBase,loading:loadingBase} = useSelector((state) => state.grid)
   
-  const [columns] = useState([
-    { name: 'Id', title: 'Id #' },
-    { name: 'Nome', title: 'Nome' }
-  ]);
+  const [columns,setColumns] = useState([]);
 
   const [rows, setRows] = useState([]);
-
   const [currencyColumns] = useState(['SaleAmount']);
   const [tableColumnExtensions] = useState([
     { columnName: 'Id', align: 'right' },
     { columnName: 'Nome', align: 'right' },
   ]);
-  const [sorting, setSorting] = useState([{ columnName: 'StoreCity', direction: 'asc' }]);
+  const [sorting, setSorting] = useState([{ columnName: 'Id', direction: 'asc' }]);
   const [filter, setFilter] = useState([{ columnName: 'StoreCity', direction: 'asc' }]);
 
   const [pageSize, setPageSize] = useState(5);
@@ -61,15 +57,33 @@ const GridRDO = () => {
   };
 
   const loadData = () => {
-    console.log(sorting);
-    const filter = {idTipoCadastro:6,page:currentPage,sizePage: pageSize};
+
+    const filter = {idTipoCadastro:6,page:currentPage,sizePage: pageSize,sorting};
     dispatch(gridData(filter));
 
   };
 
+
   useEffect(() =>{
     loadData();
+
+    setTimeout(() =>{
+      if(rowData.length > 0){
+        setColumns(getDynamicColumns(rowData[0]))
+      }
+    },300)
+      
   }, [currentPage,pageSize,sorting]);
+
+  setTimeout(() => {
+    if(rowData.length > 0){
+      setColumns(getDynamicColumns(rowData[0]))
+    }
+  }, 500);
+
+  const getDynamicColumns = (obj) => {
+    return Object.keys(obj).map(key => ({ name: key , title: key }))
+  }
 
 if(loadingBase){
   return <p>Carregando.....</p>  
