@@ -27,7 +27,7 @@ const getAllActivity = async(req,res) =>{
         return res.status(200).json([]);
     }
 
-    let queryFields = ' propriedaderespostaticket.IdUser Id';
+    let queryFields = ' ticket.Token';
 
     fields.forEach(item => {
         queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '` '
@@ -36,7 +36,6 @@ const getAllActivity = async(req,res) =>{
     let query  = ` 	SELECT * FROM (
                         SELECT 
                             ${queryFields}
-                            ,ticket.Token
                         from propriedadegrupo 
                             inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
                             inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
