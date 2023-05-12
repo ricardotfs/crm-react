@@ -20,7 +20,7 @@ function App() {
       <div className='container'>
         <Routes>
           <Route path='/' element={auth ? <Home/> : <Navigate to='/login'/>} />
-          <Route path='/login' element={!auth ? <Login/> : <Navigate to='/login'/>} />
+          <Route path='/login' element={<Login/> } />
         </Routes>
       </div>
       </BrowserRouter>

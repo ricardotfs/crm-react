@@ -19,6 +19,8 @@ import {
   Table,
   TableHeaderRow,
   PagingPanel,
+  VirtualTable,
+  TableFilterRow
 } from '@devexpress/dx-react-grid-bootstrap4';
 
 
@@ -34,13 +36,13 @@ const GridRDO = () => {
   const [columns,setColumns] = useState([]);
 
   const [rows, setRows] = useState([]);
-  const [currencyColumns] = useState(['SaleAmount']);
+  const [currencyColumns] = useState(['Token']);
   const [tableColumnExtensions] = useState([
-    { columnName: 'Id', align: 'right' },
+    { columnName: 'Token', align: 'right' },
     { columnName: 'Nome', align: 'right' },
   ]);
-  const [sorting, setSorting] = useState([{ columnName: 'Id', direction: 'asc' }]);
-  const [filter, setFilter] = useState([{ columnName: 'StoreCity', direction: 'asc' }]);
+  const [sorting, setSorting] = useState([{ columnName: 'Token', direction: 'asc' }]);
+  const [filters, setFilters] = useState([]);
 
   const [pageSize, setPageSize] = useState(5);
   const [pageSizes] = useState([5, 10, 15]);
@@ -58,8 +60,17 @@ const GridRDO = () => {
 
   const loadData = () => {
 
-    const filter = {idTipoCadastro:6,page:currentPage,sizePage: pageSize,sorting};
-    dispatch(gridData(filter));
+    let filter = filters.reduce((acc, { columnName, value }) => {
+      acc.push(`and temp.${columnName} like '%${encodeURIComponent(value)}%'`);
+      return acc;
+    }, []).join(' ');
+    
+    if (filter.length > 1) {
+      filter = `${filter}`;
+    }
+   
+    const json = {idTipoCadastro:6,page:currentPage,sizePage: pageSize,sorting:sorting,filter:filter};
+    dispatch(gridData(json));
 
   };
 
@@ -76,7 +87,7 @@ const GridRDO = () => {
   }, [currentPage,pageSize,sorting]);
 
   setTimeout(() => {
-    if(rowData.length > 0){
+    if(rowData !== undefined && rowData.length > 0){
       setColumns(getDynamicColumns(rowData[0]))
     }
   }, 500);
@@ -94,12 +105,14 @@ if(loadingBase){
       <div className="card" style={{ position: 'relative' }}>
       <Grid rows={rowData} columns={columns}>
         {/* <CurrencyTypeProvider for={currencyColumns} /> */}
-        <FilteringState filters={filter} onFiltersChange={setFilter} />
+        <FilteringState  onFiltersChange={setFilters} />
+        <VirtualTable />
         <SortingState sorting={sorting} onSortingChange={setSorting} />
         <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
         <CustomPaging totalCount={totalCountBase} />
         <Table columnExtensions={tableColumnExtensions}/>
         <TableHeaderRow showSortingControls />
+        <TableFilterRow />
         <PagingPanel pageSizes={pageSizes} />
       </Grid>
       {/* {loading && <Loading />} */}

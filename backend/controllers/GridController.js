@@ -3,10 +3,9 @@ const {executeQuery} = require('../config/db.js')
 
 const getAllActivity = async(req,res) =>{
 
-    const {idTipoCadastro,page,sizePage,sorting} = req.body;
-     
+    const {idTipoCadastro,page,sizePage,sorting,filter} = req.body;     
     const column = sorting[0].columnName;
-    const direction = sorting[0].direction;
+    const direction = sorting[0].direction;;
 
     const fields = await executeQuery(`
 
@@ -43,12 +42,21 @@ const getAllActivity = async(req,res) =>{
                         where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
                         GROUP BY propriedaderespostaticket.IdUser
                         ) as temp
+                            where 1=1 ${filter}
                             order by temp.${column} ${direction}
-                            Limit ${(page * sizePage)}, ${sizePage};`;
+                            Limit ${(page * sizePage)}, ${sizePage};`;       
 
-    let queryCount  = ` SELECT 
-                            count(1)  totalCount
-                        from Ticket;`;
+    let queryCount  = ` SELECT count(1) totalCount FROM (
+                            SELECT 
+                                ${queryFields}
+                            from propriedadegrupo 
+                                inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
+                                inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
+                                inner join ticket on ticket.id = propriedaderespostaticket.IdUser
+                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
+                            GROUP BY propriedaderespostaticket.IdUser
+                            ) as temp
+                                where 1=1 ${filter}`;
 
     const result = await executeQuery(query);
     const totalCount = await executeQuery(queryCount);
