@@ -100,22 +100,39 @@ if(loadingBase){
   return <p>Carregando.....</p>  
 }
 
+const handleSearchGrid = () =>{
+  loadData();
+}
+const handleClearFilters = () =>{
+    setFilters([]);
+}
   return (
    
+    <div id='grid'>
+
+      <div className='row'>
+        <div className='col-md-2'>
+          <button className='btn btn-primary' onClick={handleSearchGrid}>Atualizar</button>
+        </div>
+        <div className='col-md-3'>
+          <button className='btn btn-primary' onClick={handleClearFilters}>Limpar filtros</button>
+        </div>
+      </div>
       <div className="card" style={{ position: 'relative' }}>
-      <Grid rows={rowData} columns={columns}>
-        {/* <CurrencyTypeProvider for={currencyColumns} /> */}
-        <FilteringState  onFiltersChange={setFilters} />
-        <VirtualTable />
-        <SortingState sorting={sorting} onSortingChange={setSorting} />
-        <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
-        <CustomPaging totalCount={totalCountBase} />
-        <Table columnExtensions={tableColumnExtensions}/>
-        <TableHeaderRow showSortingControls />
-        <TableFilterRow />
-        <PagingPanel pageSizes={pageSizes} />
-      </Grid>
-      {/* {loading && <Loading />} */}
+          <Grid rows={rowData} columns={columns}>
+            {/* <CurrencyTypeProvider for={currencyColumns} /> */}
+            <FilteringState  onFiltersChange={setFilters} />
+            <VirtualTable />
+            <SortingState sorting={sorting} onSortingChange={setSorting} />
+            <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
+            <CustomPaging totalCount={totalCountBase} />
+            <Table columnExtensions={tableColumnExtensions}/>
+            <TableHeaderRow showSortingControls />
+            <TableFilterRow />
+            <PagingPanel pageSizes={pageSizes} />
+          </Grid>
+          {/* {loading && <Loading />} */}
+      </div>
     </div>
 
   );
