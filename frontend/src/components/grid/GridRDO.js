@@ -34,9 +34,6 @@ const GridRDO = () => {
   const {rows:rowData,totalCount:totalCountBase,loading:loadingBase} = useSelector((state) => state.grid)
   
   const [columns,setColumns] = useState([]);
-
-  const [rows, setRows] = useState([]);
-  const [currencyColumns] = useState(['Token']);
   const [tableColumnExtensions] = useState([
     { columnName: 'Token', align: 'right' },
     { columnName: 'Nome', align: 'right' },
@@ -47,8 +44,6 @@ const GridRDO = () => {
   const [pageSize, setPageSize] = useState(5);
   const [pageSizes] = useState([5, 10, 15]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [lastQuery, setLastQuery] = useState();
 
   const changePageSize = (value) => {
     const totalPages = Math.ceil(totalCountBase / value);
@@ -73,7 +68,6 @@ const GridRDO = () => {
     dispatch(gridData(json));
 
   };
-
 
   useEffect(() =>{
     loadData();
@@ -105,7 +99,16 @@ const handleSearchGrid = () =>{
 }
 const handleClearFilters = () =>{
     setFilters([]);
+
+    loadData();
+
+    setTimeout(() =>{
+      if(rowData.length > 0){
+        setColumns(getDynamicColumns(rowData[0]))
+      }
+    },300)
 }
+
   return (
    
     <div id='grid'>
