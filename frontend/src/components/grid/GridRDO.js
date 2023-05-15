@@ -11,7 +11,7 @@ import {
   PagingState,
   SortingState,
   CustomPaging,
-  FilteringState
+  FilteringState,
 } from '@devexpress/dx-react-grid';
 
 import {
@@ -98,10 +98,6 @@ const handleSearchGrid = () =>{
   loadData();
   setFilters([]);
 }
-const handleClearFilters = () =>{
-   
-    
-}
 
   return (
    
@@ -111,10 +107,8 @@ const handleClearFilters = () =>{
         <div className='col-md-2'>
           <button className='btn btn-primary' onClick={handleSearchGrid}>Atualizar</button>
         </div>
-        <div className='col-md-3'>
-          <button className='btn btn-primary' onClick={handleClearFilters}>Limpar filtros</button>
-        </div>
       </div>
+      
       <div className="card" style={{ position: 'relative' }}>
           <Grid rows={rowData} columns={columns}>
             {/* <CurrencyTypeProvider for={currencyColumns} /> */}
