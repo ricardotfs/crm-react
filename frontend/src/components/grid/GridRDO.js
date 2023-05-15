@@ -96,17 +96,11 @@ if(loadingBase){
 
 const handleSearchGrid = () =>{
   loadData();
+  setFilters([]);
 }
 const handleClearFilters = () =>{
-    setFilters([]);
-
-    loadData();
-
-    setTimeout(() =>{
-      if(rowData.length > 0){
-        setColumns(getDynamicColumns(rowData[0]))
-      }
-    },300)
+   
+    
 }
 
   return (
@@ -131,7 +125,7 @@ const handleClearFilters = () =>{
             <CustomPaging totalCount={totalCountBase} />
             <Table columnExtensions={tableColumnExtensions}/>
             <TableHeaderRow showSortingControls />
-            <TableFilterRow />
+            <TableFilterRow  />
             <PagingPanel pageSizes={pageSizes} />
           </Grid>
           {/* {loading && <Loading />} */}
