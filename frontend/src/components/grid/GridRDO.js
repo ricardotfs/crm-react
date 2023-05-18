@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../../node_modules/@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
 
 //hooks
@@ -12,6 +13,7 @@ import {
   SortingState,
   CustomPaging,
   FilteringState,
+  EditingState,
 } from '@devexpress/dx-react-grid';
 
 import {
@@ -20,7 +22,8 @@ import {
   TableHeaderRow,
   PagingPanel,
   VirtualTable,
-  TableFilterRow
+  TableFilterRow,
+  TableEditColumn
 } from '@devexpress/dx-react-grid-bootstrap4';
 
 
@@ -30,7 +33,8 @@ import {
 
 const GridRDO = () => {
   
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigete = useNavigate();
   const {rows:rowData,totalCount:totalCountBase,loading:loadingBase} = useSelector((state) => state.grid)
   
   const [columns,setColumns] = useState([]);
@@ -98,7 +102,13 @@ const handleSearchGrid = () =>{
   loadData();
   setFilters([]);
 }
-
+const editColumnMessages = {
+  //deleteCommand: 'Editar',
+  editCommand:'Editar'
+};
+const commitChanges = () => {
+  return navigete(`/login`);
+};
   return (
    
     <div id='grid'>
@@ -114,12 +124,21 @@ const handleSearchGrid = () =>{
             {/* <CurrencyTypeProvider for={currencyColumns} /> */}
             <FilteringState  onFiltersChange={setFilters} />
             <VirtualTable />
+            <EditingState
+            onEditingRowIdsChange={commitChanges}
+          // onCommitChanges={commitChanges}
+        />
             <SortingState sorting={sorting} onSortingChange={setSorting} />
             <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
             <CustomPaging totalCount={totalCountBase} />
             <Table columnExtensions={tableColumnExtensions}/>
             <TableHeaderRow showSortingControls />
             <TableFilterRow  />
+            <TableEditColumn
+              showEditCommand
+              width={250}
+              messages={editColumnMessages}
+            />
             <PagingPanel pageSizes={pageSizes} />
           </Grid>
           {/* {loading && <Loading />} */}
