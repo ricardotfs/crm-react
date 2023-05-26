@@ -21,12 +21,8 @@ import {
   Table,
   TableHeaderRow,
   PagingPanel,
-  VirtualTable,
   TableFilterRow,
-  TableEditColumn
 } from '@devexpress/dx-react-grid-bootstrap4';
-
-
 
 // import { Loading } from '../../../theme-sources/bootstrap4/components/loading';
 // import { CurrencyTypeProvider } from '../../../theme-sources/bootstrap4/components/currency-type-provider';
@@ -38,10 +34,7 @@ const GridRDO = () => {
   const {rows:rowData,totalCount:totalCountBase,loading:loadingBase} = useSelector((state) => state.grid)
   
   const [columns,setColumns] = useState([]);
-  const [tableColumnExtensions] = useState([
-    { columnName: 'Token', align: 'right' },
-    { columnName: 'Nome', align: 'right' },
-  ]);
+  const [tableColumnExtensions] = useState();
   const [sorting, setSorting] = useState([{ columnName: 'Token', direction: 'asc' }]);
   const [filters, setFilters] = useState([]);
 
@@ -91,9 +84,13 @@ const GridRDO = () => {
   }, 500);
 
   const getDynamicColumns = (obj) => {
-    return Object.keys(obj).map(key => ({ name: key , title: key }))
+    
+    return Object.keys(obj).map(key =>  ( key === "Token" 
+    ? { name: key , title: key,getCellValue: row => <a href={`/details/${row.Token}`}>{row.Token}</a> }
+    :{ name: key , title: key }))
   }
 
+  
 if(loadingBase){
   return <p>Carregando.....</p>  
 }
@@ -102,10 +99,6 @@ const handleSearchGrid = () =>{
   loadData();
   setFilters([]);
 }
-const editColumnMessages = {
-  //deleteCommand: 'Editar',
-  editCommand:'Editar'
-};
 const commitChanges = () => {
   return navigete(`/login`);
 };
@@ -121,24 +114,16 @@ const commitChanges = () => {
       
       <div className="card" style={{ position: 'relative' }}>
           <Grid rows={rowData} columns={columns}>
-            {/* <CurrencyTypeProvider for={currencyColumns} /> */}
-            <FilteringState  onFiltersChange={setFilters} />
-            <VirtualTable />
+            <FilteringState  onFiltersChange={setFilters} />   
             <EditingState
-            onEditingRowIdsChange={commitChanges}
-          // onCommitChanges={commitChanges}
-        />
+            onEditingRowIdsChange={commitChanges}/>
             <SortingState sorting={sorting} onSortingChange={setSorting} />
             <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
             <CustomPaging totalCount={totalCountBase} />
-            <Table columnExtensions={tableColumnExtensions}/>
+            <Table columnExtensions={tableColumnExtensions} >
+            </Table>
             <TableHeaderRow showSortingControls />
             <TableFilterRow  />
-            <TableEditColumn
-              showEditCommand
-              width={250}
-              messages={editColumnMessages}
-            />
             <PagingPanel pageSizes={pageSizes} />
           </Grid>
           {/* {loading && <Loading />} */}
