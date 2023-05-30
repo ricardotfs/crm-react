@@ -85,9 +85,9 @@ const GridRDO = () => {
 
   const getDynamicColumns = (obj) => {
     
-    return Object.keys(obj).map(key =>  ( key === "Token" 
-    ? { name: key , title: key,getCellValue: row => <a href={`/details/${row.Token}`}>{row.Token}</a> }
-    :{ name: key , title: key }))
+    return Object.keys(obj).map(key =>  (  key === "Token" 
+    ? { name: key , title: key,getCellValue: row => <a href={`/details/${parseInt(row.Token .replace(/\D/g, ''), 10)}`}>{row.Token}</a> }
+    : { name: key , title: key }))
   }
 
   
