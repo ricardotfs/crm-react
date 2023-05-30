@@ -6,7 +6,7 @@ const register = async(data) =>{
 
     try {
 
-        const res = await fetch(api + 'users/register', config)
+        const res = await fetch(api + 'user/register', config)
         .then((res) => res.json())
         .catch((err) => err);
 
@@ -28,7 +28,7 @@ const login = async(data) =>{
     
     try {
         
-        const res = await fetch(api + 'users/login',config)
+        const res = await fetch(api + 'user/login',config)
                         .then((res) => res.json())
                         .catch((err) => err)
 

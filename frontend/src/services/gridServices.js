@@ -6,7 +6,7 @@ const getData = async(data,token) =>{
 
     try {
 
-        const res = await fetch(api + 'grids/ticket', config)
+        const res = await fetch(api + 'grid', config)
         .then((res) => res.json())
         .catch((err) => err);
 
