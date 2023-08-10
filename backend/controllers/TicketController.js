@@ -3,30 +3,28 @@ const {executeQuery} = require('../config/db.js')
 const getById = async(req,res) => {
 
     const {id} = req.params;   
+    const groups = await executeQuery(`SELECT 
+                                            Id,IdConta,IdTipoCadastro,Ordem,Ativo,Nome 
+                                       FROM crmreactdb.propriedadegrupo 
+                                       where IdTipoCadastro = 6
+                                       order by propriedadegrupo.Ordem`)
+    
+    for (let index = 0; index < groups.length; index++) {
+        const group = groups[index];
+        
+        const properties = await executeQuery(` select 
+                                                        Id,IdConta,IdPropriedadeGrupo,IdTipoPropriedade,Nome,Descricao,Ordem 
+                                                from propriedade 
+                                                where IdPropriedadeGrupo = ${group.Id}
+                                                order by propriedade.Ordem  `);
+            
+        group.properties = properties;
+    }
 
-    const group = await executeQuery(`
-                                        SELECT 
-                                            IFNULL(propriedaderespostaticket.IdUser,${id}) Id,
-                                            propriedade.IdPropriedadeGrupo,
-                                            propriedadegrupo.Nome,
-                                            propriedadegrupo.Ordem GrupoOrdem,
-                                            propriedade.Nome,
-                                            propriedade.Ordem PropriedadeOrdem,
-                                            IFNULL(propriedaderespostaticket.resposta,'') Resposta
-                                        from propriedadegrupo
-                                        inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                        left join propriedaderespostaticket on propriedade.Id  = propriedaderespostaticket.IdPropriedade and propriedaderespostaticket.IdUser = ${id}
-                                        where propriedadegrupo.idTipoCadastro in(6)
-                                            and propriedade.ativo = 1
-                                        order by propriedadegrupo.Ordem,propriedade.Ordem;`);
-
-    const activity = await executeQuery(`
-                                            select Id,Token from ticket  where id = 1
-                                        `);
 
    return res.status(200).json({
-                                activity:activity[0],
-                                group
+                                activity:{Id:id,Token:`TKT${id}`},
+                                groups
                             });
 
 }
