@@ -18,3 +18,8 @@ const getById = async(id) =>{
     }
 
 }
+const formService = {
+    getById
+}
+
+export default formService;

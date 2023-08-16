@@ -2,16 +2,14 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import gridService from "../services/formularioServices";
 
 const initialState = {
-    columns:[],
-    rows:[],
-    totalCount:0,
+    data: {},
     error:false,
     success:false,
     loading:false,
     message:null
 }
 
-export const formularioData = createAsyncThunk('formulario/getById',
+export const getById = createAsyncThunk('formulario/getById',
     async(id,thunkAPI) =>{
 
         const token = thunkAPI.getState().auth.user.token;
@@ -21,8 +19,8 @@ export const formularioData = createAsyncThunk('formulario/getById',
     }
 )
 
-export const formularioSlice = createSlice({
-    name:'formulario',
+export const formSlice = createSlice({
+    name:'form',
     initialState,
     reducers:{
         resetMessage: (state) =>{
@@ -30,17 +28,20 @@ export const formularioSlice = createSlice({
         }
     },
     extraReducers: (builder)=>{
-        builder.addCase(formularioData.pending,(state)=> {
+        builder.addCase(getById.pending,(state)=> {
             state.loading  = true;
             state.error = false;
-        }).addCase(formularioData.fulfilled,(state,action)=> {
+        }).addCase(getById.fulfilled,(state,action)=> {
             state.loading  = false;
             state.error = null;
             state.success = true;
-            state.data = action.payload;
+            state.data = { "activity": {
+                "Id": "1",
+                "Token": "TKT1"
+            },};
         })
     }
 });
 
-export const {resetMessage} = formularioData.actions;
-export default formularioSlice.reducer;
+export const {resetMessage} = formSlice.actions;
+export default formSlice.reducer;

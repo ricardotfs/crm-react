@@ -5,6 +5,7 @@ import Home from './pages/home/Home';
 import Login from './pages/auth/Login';
 import { useAuth } from './hooks/useAuth';
 import Navbar from './components/navbar/Navbar';
+import Ticket from './pages/ticket/Ticket';
 
 function App() {
   const {auth,loading} = useAuth();
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path='/' element={auth ? <Home/> : <Navigate to='/login'/>} />
           <Route path='/login' element={<Login/> } />
+          <Route path='/ticket' element={<Ticket/> } />
         </Routes>
       </div>
       </BrowserRouter>
