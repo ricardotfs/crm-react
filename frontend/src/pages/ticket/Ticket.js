@@ -1,7 +1,7 @@
 import React from 'react'
 import './Ticket.css'
 //Components
-import Form from '../../components/formulario/Formulario'
+import Form from '../../components/form/Form'
 
 const Ticket = () =>{
     return(

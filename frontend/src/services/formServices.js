@@ -7,7 +7,7 @@ const getById = async(id) =>{
 
     try {
 
-        const res = await fetch(api + 'formulario/getById' + id , config)
+        const res = await fetch(api + 'form/getById/' + id , config)
         .then((res) => res.json())
         .catch((err) => err);
         

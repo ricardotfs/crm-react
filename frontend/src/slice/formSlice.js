@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import gridService from "../services/formularioServices";
+import gridService from "../services/formServices";
 
 const initialState = {
     data: {},
@@ -9,7 +9,7 @@ const initialState = {
     message:null
 }
 
-export const getById = createAsyncThunk('formulario/getById',
+export const getById = createAsyncThunk('form/getById',
     async(id,thunkAPI) =>{
 
         const token = thunkAPI.getState().auth.user.token;
@@ -35,10 +35,7 @@ export const formSlice = createSlice({
             state.loading  = false;
             state.error = null;
             state.success = true;
-            state.data = { "activity": {
-                "Id": "1",
-                "Token": "TKT1"
-            },};
+            state.data = action.payload;
         })
     }
 });

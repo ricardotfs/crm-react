@@ -3,7 +3,7 @@ const router = express();
 
 router.use('/api/User',require('./UserRoutes'))
 router.use('/api/grid',require('./GridRoutes'))
-router.use('/api/formulario',require('./FormularioRoutes'))
+router.use('/api/form/:id',require('./FormRoutes'))
 
 router.get('/',(req,res) =>{
     res.send('API Working')
