@@ -70,7 +70,7 @@ const GridRDO = () => {
     loadData();
 
     setTimeout(() =>{
-      if(rowData.length > 0){
+      if(rowData !== undefined && rowData.length > 0){
         setColumns(getDynamicColumns(rowData[0]))
       }
     },300)
@@ -86,7 +86,7 @@ const GridRDO = () => {
   const getDynamicColumns = (obj) => {
     
     return Object.keys(obj).map(key =>  (  key === "Token" 
-    ? { name: key , title: key,getCellValue: row => <a href={`/details/${parseInt(row.Token .replace(/\D/g, ''), 10)}`}>{row.Token}</a> }
+    ? { name: key , title: key,getCellValue: row => <a href={`/ticket/${parseInt(row.Token .replace(/\D/g, ''), 10)}`}>{row.Token}</a> }
     : { name: key , title: key }))
   }
 

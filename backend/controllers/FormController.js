@@ -15,8 +15,12 @@ const getById = async(req,res) => {
         const group = groups[index];
         
         const properties = await executeQuery(` select 
-                                                        Id,IdConta,IdPropriedadeGrupo,IdTipoPropriedade,Nome,Descricao,Ordem 
+                                                        propriedade.Id,propriedade.IdConta,propriedade.IdPropriedadeGrupo,
+                                                        propriedade.IdTipoPropriedade,propriedade.Nome,propriedade.Descricao,
+                                                        propriedade.Ordem,
+                                                        propriedaderespostaticket.Resposta 
                                                 from propriedade 
+                                                left join propriedaderespostaticket  on propriedade.Id = propriedaderespostaticket.IdPropriedade  and propriedaderespostaticket.Iduser = ${id}
                                                 where IdPropriedadeGrupo = ${group.Id}
                                                 order by propriedade.Ordem  `);
             
