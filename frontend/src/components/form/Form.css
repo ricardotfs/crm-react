@@ -1,0 +1,27 @@
+/* Styling for the tabs container */
+.tabs-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Styling for the tab links */
+.nav-link {
+    color: #007bff;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+}
+
+/* Styling for the active tab link */
+.nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Styling for the tab content */
+.tab-content {
+    background-color: #fff;
+    border-radius: 0 10px 10px 10px;
+    padding: 20px;
+}
