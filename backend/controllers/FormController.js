@@ -6,8 +6,8 @@ const getById = async(req,res) => {
     console.log(id);
 
     const groups = await executeQuery(`SELECT 
-                                            Id,IdConta,IdTipoCadastro,Ordem,Ativo,Nome 
-                                       FROM crmreactdb.propriedadegrupo 
+                                            Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
+                                       FROM propriedadegrupo 
                                        where IdTipoCadastro = 6
                                        order by propriedadegrupo.Ordem`)
     

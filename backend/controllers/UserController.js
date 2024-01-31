@@ -14,7 +14,7 @@ const register = async(req,res) =>{
     const {name,email,password} = req.body;
  
 
-    const user = await executeQuery(`SELECT Id FROM crmreactdb.Usuario Where Email = '${email}'`);
+    const user = await executeQuery(`SELECT Id FROM Usuario Where Email = '${email}'`);
     
     if(user.length > 0){
         res.status(422).json({errors:['Por favor, utilize outro e-mail']});
@@ -24,9 +24,9 @@ const register = async(req,res) =>{
     const salt = await bcrypt.genSalt()
     const passwordHash = await bcrypt.hash(password,salt);
 
-    await executeQuery(` INSERT INTO crmreactdb.Usuario (Nome,Email,Senha) values ('${name}','${email}','${passwordHash}')`)
+    await executeQuery(` INSERT INTO Usuario (Nome,Email,Senha) values ('${name}','${email}','${passwordHash}')`)
     
-    const user1 = await executeQuery(`SELECT Id FROM crmreactdb.Usuario Where Email = '${email}'`);
+    const user1 = await executeQuery(`SELECT Id FROM Usuario Where Email = '${email}'`);
 
     if(!user1.length === 0){
         res.status(422).json({errors:['Houve um erro, por favor tente mais tarde']});
@@ -42,7 +42,7 @@ const register = async(req,res) =>{
 const login  = async (req,res) =>{
     const {email,password} = req.body;
 
-    const users = await executeQuery(`SELECT id,senha FROM crmreactdb.Usuario Where Email = '${email}'`);
+    const users = await executeQuery(`SELECT id,senha FROM Usuario Where Email = '${email}'`);
 
     if(users.length === 0){
         res.status(404).json({errors:["Usuário não encontrado."]})
@@ -72,7 +72,7 @@ const update = async (req,res)=>{
     }
 
     const reqUser = req.user;
-    const users = await executeQuery(`SELECT Id,nome,senha,imagem FROM crmreactdb.Usuario Where Id = '${reqUser.id}'`);
+    const users = await executeQuery(`SELECT Id,nome,senha,imagem FROM Usuario Where Id = '${reqUser.id}'`);
     if(users.length === 0){
         return;
     }
@@ -88,7 +88,7 @@ const update = async (req,res)=>{
     if(profileImage){
         users[0].imagem = profileImage
     }
-    await executeQuery(`update crmreactdb.Usuario set 
+    await executeQuery(`update Usuario set 
                                 Nome = '${ users[0].nome}', 
                                 Email = '${ users[0].email}', 
                                 Imagem = '${ users[0].imagem}' 
