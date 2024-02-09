@@ -1,4 +1,8 @@
 /* Styling for the tabs container */
+.titulo-grupo{
+    color: #4d627b; 
+    text-align: left;
+}
 .tabs-container {
     background-color: #f8f9fa;
     border-radius: 10px;
