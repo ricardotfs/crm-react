@@ -93,7 +93,7 @@ const Form = () => {
                                                         type='text'
                                                         id={field.Nome}
                                                         className="form-control"
-                                                        value={field.Resposta}
+                                                        value={field.Resposta || '' }
                                                         onChange={(event) => handleChange(event, field.Id)}
                                                     />
                                                 </div>
