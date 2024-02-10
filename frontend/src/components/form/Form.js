@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getById } from '../../slice/formSlice';
 import { useParams } from 'react-router-dom';
+import Field from '../field/Field';
 
 const Form = () => {
     const { id } = useParams();
@@ -65,7 +66,7 @@ const Form = () => {
         <div>
             <h1>
                 {token}
-            </h1>
+        </h1>
 
             <div className="container mt-5">
                 <div className="row">
@@ -86,16 +87,7 @@ const Form = () => {
                                                 if (p.IdPropriedadeGrupo === group.Id)
                                                     return p;
                                             }).map((field) => (
-                                                <div key={field.Id}>
-                                                    <label className="form-label" htmlFor={field.Nome}>{field.Nome}</label>
-                                                    <input
-                                                        type='text'
-                                                        id={field.Nome}
-                                                        className="form-control"
-                                                        value={field.Resposta || '' }
-                                                        onChange={(event) => handleChange(event, field.Id)}
-                                                    />
-                                                </div>
+                                                <Field field={field} handleChange ={handleChange} />
                                             ))}
                                         </div>
                                     </div>
