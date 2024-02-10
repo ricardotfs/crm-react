@@ -72,15 +72,14 @@ const Form = () => {
                     <div className="col-md-3">
                         <div className="nav nav-tabs flex-column nav-pills tabs-container" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                                <a key={indexGrup} className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
+                                <a key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active":"" )}`} id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
                             ))}
                         </div>
                     </div>
                     <div className="col-md-9">
                         <div className="tab-content">
                             {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
-                                <>
-                                    <div key={indexName} className="tab-pane  active in" id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                    <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active":"" )}`}  id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
                                         <legend className="titulo-grupo">{group.Nome}</legend>
                                         <div className='row'>
                                             {formField.filter((p) => {
@@ -100,7 +99,6 @@ const Form = () => {
                                             ))}
                                         </div>
                                     </div>
-                                </>
                             ))}
                         </div>
                     </div>
