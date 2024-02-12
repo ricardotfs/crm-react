@@ -17,8 +17,11 @@ const Field = ({ field, handleChange }) => {
         return (
             <>
                 <select className="form-control" onChange={(event) => handleChange(event, field.Id)}>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
+                    {field.Campos.map((option) => (
+                        <option key={option.Id} value={option.Valor}>
+                            {option.Valor}
+                        </option>
+                    ))}
                 </select>
             </>
         )
