@@ -58,8 +58,12 @@ const Form = () => {
 
     const hanbleUpdate = (e) => {
         e.preventDefault();
-
-        let aa = formField;
+        
+        const form = {
+            id:id,
+            properties: formField,
+        }
+        
     };
 
     return (

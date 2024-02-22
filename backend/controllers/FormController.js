@@ -52,6 +52,28 @@ const getById = async (req, res) => {
 
 }
 
-module.exports = {
-    getById
+const update = async(req,res) =>{
+ 
+    const {id,properties} = req.body;
+
+    for (let i = 0; i < properties.length; i++) {
+        const prop = properties[i];
+
+        executeQuery(`CALL UpsertPropriedadeRespostaTicket(${prop.Id}, 1,  ${id}, '${prop.Resposta}');`);
+        
+    } 
+
+    setTimeout((t => {
+
+        return res.status(200).json({
+            msg:'Alterado com sucesso'
+        });
+
+    }), 500)
+
 }
+
+module.exports = {
+    getById,
+    update
+}   
