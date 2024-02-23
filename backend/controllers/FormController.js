@@ -54,12 +54,12 @@ const getById = async (req, res) => {
 
 const update = async(req,res) =>{
  
-    const {id,properties} = req.body;
+    const {id,idConta,properties} = req.body;
 
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];
 
-        executeQuery(`CALL UpsertPropriedadeRespostaTicket(${prop.Id}, 1,  ${id}, '${prop.Resposta}');`);
+        executeQuery(`CALL UpsertPropriedadeRespostaTicket(${prop.Id}, ${idConta},  ${id}, '${prop.Resposta}');`);
         
     } 
 

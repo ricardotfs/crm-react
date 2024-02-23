@@ -18,8 +18,26 @@ const getById = async(id) =>{
     }
 
 }
+const update = async(data) =>{
+
+    const config = requestConfig('POST',data)
+
+    try {
+
+        const res = await fetch(api + 'form/update', config)
+        .then((res) => res.json())
+        .catch((err) => err);
+        
+        return res;
+        
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 const formService = {
-    getById
+    getById,
+    update
 }
 
 export default formService;

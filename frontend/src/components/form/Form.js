@@ -2,7 +2,7 @@ import './Form.css'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { getById } from '../../slice/formSlice';
+import { getById,update } from '../../slice/formSlice';
 import { useParams } from 'react-router-dom';
 import Field from '../field/Field';
 
@@ -60,9 +60,11 @@ const Form = () => {
         e.preventDefault();
         
         const form = {
-            id:id,
+            id:1,
+            idConta:1,
             properties: formField,
         }
+        dispatch(update(form));
         
     };
 
