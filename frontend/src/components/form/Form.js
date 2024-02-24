@@ -17,17 +17,14 @@ const Form = () => {
 
     useEffect(()=>{
         console.log(message);
-        
+
         setTimeout(()=>{
             dispatch(getById(id));
-        },300);
+        },1000);
         
     },[message])   
-    useEffect(() => {
-        // if (data.activity != undefined) {
-        //     setToken(data.activity.Token);
-        // }
 
+    useEffect(() => {
         console.log(data);
         if (data.groups != undefined) {
 
