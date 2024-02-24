@@ -10,11 +10,19 @@ const Form = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { data, loading } = useSelector((state) => state.form);
+    const { data, loading, message } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
     const [formField, setFormFields] = useState([]);
     const array = [];
 
+    useEffect(()=>{
+        console.log(message);
+        
+        setTimeout(()=>{
+            dispatch(getById(id));
+        },300);
+        
+    },[message])   
     useEffect(() => {
         // if (data.activity != undefined) {
         //     setToken(data.activity.Token);
@@ -64,9 +72,13 @@ const Form = () => {
             idConta:1,
             properties: formField,
         }
-        dispatch(update(form));
         
+        dispatch(update(form));
+
+
     };
+
+
 
     return (
         <div>
@@ -87,7 +99,8 @@ const Form = () => {
                         <div className="tab-content">
                             {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
                                     <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active":"" )}`}  id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
-                                        <legend className="titulo-grupo">{group.Nome}</legend>
+                                        <>
+                                        <legend  key={indexName}  className="titulo-grupo">{group.Nome}</legend>
                                         <div className='row'>
                                             {formField.filter((p) => {
                                                 if (p.IdPropriedadeGrupo === group.Id)
@@ -96,6 +109,8 @@ const Form = () => {
                                                 <Field field={field} handleChange ={handleChange} />
                                             ))}
                                         </div>
+                                        </>
+                                        
                                     </div>
                             ))}
                         </div>
