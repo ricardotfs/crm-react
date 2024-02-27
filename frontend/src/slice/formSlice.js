@@ -29,7 +29,7 @@ export const update = createAsyncThunk('form/update',
             return thunkAPI.rejectWithValue(data.errors[0])
         }
 
-        return data;
+        return {data:obj.properties,result:data};
     }
 );
 
@@ -57,7 +57,7 @@ export const formSlice = createSlice({
             state.loading  = false;
             state.error = null;
             state.success = true;
-            state.message = action.payload.msg;
+            state.dataForm = action.payload;
         }).addCase(update.rejected,(state,action)=> {
             state.loading  = false;
             state.error = action.payload;

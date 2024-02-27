@@ -4,25 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getById,update } from '../../slice/formSlice';
 import { useParams } from 'react-router-dom';
+import Loding  from '../loding/Loding' 
 import Field from '../field/Field';
 
 const Form = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { data, loading, message } = useSelector((state) => state.form);
+    const { dataForm,data, loading, message } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
     const [formField, setFormFields] = useState([]);
     const array = [];
 
     useEffect(()=>{
-        console.log(message);
-
-        setTimeout(()=>{
-            dispatch(getById(id));
-        },1000);
+        if(dataForm !== undefined){
+            setTimeout(()=>{
+                setFormFields(dataForm.data);
+            },300)  
+            
+        }
         
-    },[message])   
+        
+    },[dataForm])   
 
     useEffect(() => {
         console.log(data);
@@ -82,7 +85,8 @@ const Form = () => {
             <h1>
                 {token}
         </h1>
-
+            {loading && <Loding/>}
+            {!loading && 
             <div className="container mt-5">
                 <div className="row">
                     <div className="col-md-3">
@@ -114,7 +118,7 @@ const Form = () => {
                     </div>
                 </div>
             </div>
-
+            }
             {/* <div className="container mt-5">
                 <div className="row">
                     <div  className="col-md-3">
