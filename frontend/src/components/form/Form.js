@@ -13,6 +13,7 @@ const Form = () => {
     const navigate = useNavigate();
     const { dataForm,data, loading, message } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
+    const [idAtiv, setIdAtiv] = useState(id);
     const [formField, setFormFields] = useState([]);
     const array = [];
 
@@ -68,16 +69,22 @@ const Form = () => {
         e.preventDefault();
         
         const form = {
-            id:1,
+            id:idAtiv,
             idConta:1,
             properties: formField,
         }
         
         dispatch(update(form));
-
-
     };
+    const handleNew = () =>{
+        const array = [];
+        formField.forEach((el)=>{
+            array.push({...el,Resposta:''});
+        })
 
+        setFormFields(array);
+        setIdAtiv(0);
+    }
 
 
     return (
@@ -117,69 +124,13 @@ const Form = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            }
-            {/* <div className="container mt-5">
-                <div className="row">
-                    <div  className="col-md-3">
-                        <div className="nav nav-tabs flex-column nav-pills tabs-container" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => 
-                                <a key={indexGrup} className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
-                             ))} 
-                        </div>
-                    </div>
-                    <div className="col-md-9">
-                        <div className="tab-content">
-                             {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexG) => (
-                                <>
-                               { (indexG > 0)  && <div key={indexG} className="tab-pane fade" id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
-                                    <div className='row'>
-                                         {group.properties && group.properties.length > 0 && group.properties.map((prop, index) => (
-                                            <div className="col-md-12" >
-                                                <h1 key={index} >Teste</h1>
-                                                {/* <label className="form-label">{prop.Nome}</label>
-                                                {prop.IdTipoPropriedade === 1 && (
-                                                    <input key={prop.Id} id={`campo_${prop.Id}`} type="text" value={prop.Resposta || ''} className="form-control" />
-                                                )} */}
-            {/* </div>
-                                        ))} 
-                                    </div>
-                                </div>} 
-                                </>
-                                ))} 
-                                
-                        </div>
-                    </div>
-
-
-                </div> 
-            </div> 
-            {/* <div>
-                {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                    <div className="col-md-12" key={indexGrup}>
-                        <h1>{group.Nome}</h1>
-                        <div className='row'>
-                            {group.properties && group.properties.length > 0 && group.properties.map((prop, index) => (
-                                <div className="col-md-12" key={index}>
-                                    <label className="form-label">{prop.Nome}</label>
-                                    {prop.IdTipoPropriedade === 1 && (
-                                        <input id={`campo_${prop.Id}`} type="text" value={prop.Resposta} className="form-control" />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                    </div >
-
-                ))}
-
-
-            </div> */}
+            </div>}         
             <div className='row mt-4' >
                 <div className="col-md-6">
 
                 </div>
                 <div className="col-md-6">
+                <button type="submit" onClick={handleNew} className="btn btn-primary mr-1">Novo</button>
                     <button type="submit" onClick={hanbleUpdate} className="btn btn-primary mr-1">Salvar</button>
                     <button type="submit" className="btn btn-secondary mr-1" >Fechar</button>
                 </div>
