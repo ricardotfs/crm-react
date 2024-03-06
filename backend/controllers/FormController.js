@@ -1,9 +1,9 @@
-const { executeQuery } = require('../config/db.js')
+const { executeQuery ,executeQueryReturn} = require('../config/db.js')
 
 const getById = async (req, res) => {
 
     const { id } = req.params;
-    console.log(id);
+   // console.log(id);
 
     const groups = await executeQuery(`SELECT 
                                             Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
@@ -41,7 +41,7 @@ const getById = async (req, res) => {
     }
 
     setTimeout((t => {
-        console.log(groups);
+       // console.log(groups);
 
         return res.status(200).json({
             activity: { Id: id, Token: `TKT${id}` },
@@ -56,10 +56,17 @@ const update = async(req,res) =>{
  
     const {id,idConta,properties} = req.body;
 
+    let idAtiv = id;
+
+    if(id == 0){
+       let result =  await executeQueryReturn(`insert into Ticket (token) values('adfasdf')`);
+       idAtiv = result[0].lastInsertId;
+    }
+
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];
 
-        executeQuery(`CALL UpsertPropriedadeRespostaTicket(${prop.Id}, ${idConta},  ${id}, '${prop.Resposta}');`);
+        executeQuery(`CALL UpsertPropriedadeRespostaTicket(${prop.Id}, ${idConta},  ${idAtiv}, '${prop.Resposta}');`);
         
     } 
 

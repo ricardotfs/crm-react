@@ -45,8 +45,24 @@ const executeQuery = async (sql) =>{
   }
 };
 
+const executeQueryReturn =  async(sql) =>{
+  
+    try {
+      await query(sql);
+      const results =  await query('SELECT LAST_INSERT_ID() AS lastInsertId;');
+  
+      return results;
+  
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
 conn();
 
 module.exports ={
   executeQuery,
+  executeQueryReturn
 } 
