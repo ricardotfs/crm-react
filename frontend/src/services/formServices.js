@@ -1,13 +1,14 @@
 import {api,requestConfig} from '../utils/Config'
 
 
-const getById = async(id) =>{
+const getById = async(data) =>{
 
-    const config = requestConfig('GET')
+   
+    const config = requestConfig('POST',data);
 
     try {
 
-        const res = await fetch(api + 'form/getById/' + id , config)
+        const res = await fetch(api + 'form/getById' , config)
         .then((res) => res.json())
         .catch((err) => err);
         

@@ -10,10 +10,10 @@ const initialState = {
 }
 
 export const getById = createAsyncThunk('form/getById',
-    async(id,thunkAPI) =>{
+    async(search,thunkAPI) =>{
 
         const token = thunkAPI.getState().auth.user.token;
-        const data = await formService.getById(id,token);
+        const data = await formService.getById(search,token);
 
         return data;
     }

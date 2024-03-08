@@ -1,6 +1,6 @@
 import './Form.css'
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect  } from 'react';
+import { useNavigate,useLocation  } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getById,update } from '../../slice/formSlice';
 import { useParams } from 'react-router-dom';
@@ -8,9 +8,12 @@ import Loding  from '../loding/Loding'
 import Field from '../field/Field';
 
 const Form = () => {
+    const TICKET = 'ticket';
+    
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { dataForm,data, loading, message } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
     const [idAtiv, setIdAtiv] = useState(id);
@@ -45,9 +48,17 @@ const Form = () => {
 
     useEffect(() => {
 
-        dispatch(getById(id));
+        let  tipo = '';
 
-    }, [id]);
+        if(location.pathname.includes('ticket')){
+            tipo = TICKET;
+        }
+            
+
+        const search = {id:id,tipo:tipo};
+        dispatch(getById(search));
+
+    }, [dispatch]);
 
     const handleCallGrid = () => {
         navigate('/');

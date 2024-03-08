@@ -2,8 +2,7 @@ const { executeQuery ,executeQueryReturn} = require('../config/db.js')
 
 const getById = async (req, res) => {
 
-    const { id } = req.params;
-   // console.log(id);
+    const {id,tipo} = req.body;
 
     const groups = await executeQuery(`SELECT 
                                             Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
@@ -18,21 +17,16 @@ const getById = async (req, res) => {
                                                         propriedade.Id,propriedade.IdConta,propriedade.IdPropriedadeGrupo,
                                                         propriedade.IdTipoPropriedade,propriedade.Nome,propriedade.Descricao,
                                                         propriedade.Ordem,
-                                                        propriedaderespostaticket.Resposta 
+                                                        propriedaderesposta${tipo}.Resposta 
                                                 from propriedade 
-                                                left join propriedaderespostaticket  on propriedade.Id = propriedaderespostaticket.IdPropriedade  and propriedaderespostaticket.Iduser = ${id}
+                                                left join propriedaderesposta${tipo} on propriedade.Id = propriedaderesposta${tipo}.IdPropriedade  and propriedaderespostaticket.Iduser = ${id}
                                                 where IdPropriedadeGrupo = ${group.Id}
                                                 order by propriedade.Ordem  `);
 
         properties.forEach(async (el) => {
             if (el.IdTipoPropriedade === 2) {
                 const fields = await executeQuery(`select Id,IdPropriedade,Valor from PropriedadeCampos where IdPropriedade = ${el.Id}`);
-
-
                 el.Campos = fields;
-                console.log(el.Campos)
-
-
             }
         });
 
@@ -41,8 +35,6 @@ const getById = async (req, res) => {
     }
 
     setTimeout((t => {
-       // console.log(groups);
-
         return res.status(200).json({
             activity: { Id: id, Token: `TKT${id}` },
             groups
