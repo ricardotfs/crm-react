@@ -105,7 +105,7 @@ const Form = () => {
         </h1>
             {loading && <Loding/>}
             {!loading && 
-            <div className="container">
+            <div className="container mt-5">
                 <div className="row">
                     <div className="col-md-3">
                         <div className="nav nav-tabs flex-column nav-pills tabs-container" id="v-pills-tab" role="tablist" aria-orientation="vertical">
