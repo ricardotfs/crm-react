@@ -18,6 +18,7 @@ const Form = () => {
     const [token, setToken] = useState('');
     const [idAtiv, setIdAtiv] = useState(id);
     const [formField, setFormFields] = useState([]);
+    const [isClicked, setIsClicked] = useState(false);
     const array = [];
 
     useEffect(() => {
@@ -97,6 +98,11 @@ const Form = () => {
         setIdAtiv(0);
     }
 
+    const handleClickFormActive = () => {
+        // Toggle the state value
+        setIsClicked(!isClicked);
+        console.log(isClicked)
+      };
 
     return (
         <div>
@@ -105,16 +111,16 @@ const Form = () => {
                 <div className="tab-base tab-stacked-left col-md-2">
                     <ul className="nav nav-tabs">
                         {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                            <li key={indexGrup} className={`${(indexGrup === 0 ? "active" : "")}`}>
-                                <a data-toggle="tab"  target="_self" href={`#grupoTab${group.Id}`} >{group.Nome}</a>
+                            <li key={indexGrup} >
+                                <a  key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active" : isClicked ? "active": "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
                             </li>
                         ))}
                     </ul>
                 </div>
                 <div className="tab-content col-md-10">
                     {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
-                        <div key={indexName} id={`grupoTab${group.Id}`} className="">
-                            <legend style={{'color': '#4d627b', 'text-align': 'left'}}>{group.Nome}</legend>
+                        <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active" : isClicked ? "active": "")}`} id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <legend style={{ 'color': '#4d627b', 'text-align': 'left' }}>{group.Nome}</legend>
                             <div className='row'>
                                 {formField.filter((p) => {
                                     if (p.IdPropriedadeGrupo === group.Id)
