@@ -1,35 +1,35 @@
 import './Form.css'
-import React, { useState, useEffect  } from 'react';
-import { useNavigate,useLocation  } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { getById,update } from '../../slice/formSlice';
+import { getById, update } from '../../slice/formSlice';
 import { useParams } from 'react-router-dom';
-import Loding  from '../loding/Loding' 
+import Loding from '../loding/Loding'
 import Field from '../field/Field';
 
 const Form = () => {
     const TICKET = 'ticket';
-    
+
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { dataForm,data, loading, message } = useSelector((state) => state.form);
+    const { dataForm, data, loading, message } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
     const [idAtiv, setIdAtiv] = useState(id);
     const [formField, setFormFields] = useState([]);
     const array = [];
 
-    useEffect(()=>{
-        if(dataForm !== undefined){
-            setTimeout(()=>{
+    useEffect(() => {
+        if (dataForm !== undefined) {
+            setTimeout(() => {
                 setFormFields(dataForm.data);
-            },300)  
-            
+            }, 300)
+
         }
-        
-        
-    },[dataForm])   
+
+
+    }, [dataForm])
 
     useEffect(() => {
         console.log(data);
@@ -48,14 +48,14 @@ const Form = () => {
 
     useEffect(() => {
 
-        let  tipo = '';
+        let tipo = '';
 
-        if(location.pathname.includes('ticket')){
+        if (location.pathname.includes('ticket')) {
             tipo = TICKET;
         }
-            
 
-        const search = {id:id,tipo:tipo};
+
+        const search = { id: id, tipo: tipo };
         dispatch(getById(search));
 
     }, [dispatch]);
@@ -78,19 +78,19 @@ const Form = () => {
 
     const hanbleUpdate = (e) => {
         e.preventDefault();
-        
+
         const form = {
-            id:idAtiv,
-            idConta:1,
+            id: idAtiv,
+            idConta: 1,
             properties: formField,
         }
-        
+
         dispatch(update(form));
     };
-    const handleNew = () =>{
+    const handleNew = () => {
         const array = [];
-        formField.forEach((el)=>{
-            array.push({...el,Resposta:''});
+        formField.forEach((el) => {
+            array.push({ ...el, Resposta: '' });
         })
 
         setFormFields(array);
@@ -100,10 +100,38 @@ const Form = () => {
 
     return (
         <div>
-            <h1>
+            <h2>TEste</h2>
+            <div className='mt-5 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
+                <div className="tab-base tab-stacked-left col-md-2">
+                    <ul className="nav nav-tabs">
+                        {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
+                            <li key={indexGrup} className={`${(indexGrup === 0 ? "active" : "")}`}>
+                                <a data-toggle="tab"  target="_self" href={`#grupoTab${group.Id}`} >{group.Nome}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="tab-content col-md-10">
+                    {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
+                        <div key={indexName} id={`grupoTab${group.Id}`} className="">
+                            <legend style={{'color': '#4d627b', 'text-align': 'left'}}>{group.Nome}</legend>
+                            <div className='row'>
+                                {formField.filter((p) => {
+                                    if (p.IdPropriedadeGrupo === group.Id)
+                                        return p;
+                                }).map((field) => (
+                                    <Field field={field} handleChange={handleChange} />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+
+                </div>
+            </div>
+            {/* <h1>
                 {token}
-        </h1>
-            {loading && <Loding/>}
+        </h1> */}
+            {/* {loading && <Loding/>}
             {!loading && 
             <div className="container mt-5">
                 <div className="row">
@@ -145,7 +173,7 @@ const Form = () => {
                     <button type="submit" onClick={hanbleUpdate} className="btn btn-primary mr-1">Salvar</button>
                     <button type="submit" className="btn btn-secondary mr-1" >Fechar</button>
                 </div>
-            </div>
+            </div> */}
 
         </div>
     );
