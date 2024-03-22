@@ -18,7 +18,6 @@ const Form = () => {
     const [token, setToken] = useState('');
     const [idAtiv, setIdAtiv] = useState(id);
     const [formField, setFormFields] = useState([]);
-    const [isClicked, setIsClicked] = useState(false);
     const array = [];
 
     useEffect(() => {
@@ -37,6 +36,7 @@ const Form = () => {
         if (data.groups != undefined) {
 
             data.groups.forEach(el => {
+                el = { ...el, isClicked: false };
                 el.properties.forEach(p => {
                     array.push(p)
                 })
@@ -98,28 +98,44 @@ const Form = () => {
         setIdAtiv(0);
     }
 
-    const handleClickFormActive = () => {
-        // Toggle the state value
-        setIsClicked(!isClicked);
-        console.log(isClicked)
-      };
+    const handleClickFormActive = (data, id) => {
+
+        data.groups.forEach(group => {
+            let div = document.getElementById(`form_${group.Id}`);
+            if (div === null)
+                return;
+
+            if (group.Id === id) {
+                div.classList.add('active');
+            }
+            else {
+                div.classList.remove('active');
+            }
+        });
+    };
 
     return (
-        <div>
-            <h2>TEste</h2>
-            <div className='mt-5 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
+        <div className='mt-2 row'>
+            <div  className='mt-5 row'>
+                <div className='col-md-2'></div>
+                <div className='col-md-10'>
+                    <h3>TKT000{id}</h3>
+                </div>
+                
+            </div>
+            <div className='mt-1 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
                 <div className="tab-base tab-stacked-left col-md-2">
                     <ul className="nav nav-tabs">
                         {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                            <li key={indexGrup} >
-                                <a  key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active" : isClicked ? "active": "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
+                            <li key={indexGrup}  >
+                                <a onClick={() => handleClickFormActive(data, group.Id)} key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active" : group.isSelected ? "active" : "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
                             </li>
                         ))}
                     </ul>
                 </div>
                 <div className="tab-content col-md-10">
                     {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
-                        <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active" : isClicked ? "active": "")}`} id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active" : group.isSelected ? "active" : "")}`} id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <legend style={{ 'color': '#4d627b', 'text-align': 'left' }}>{group.Nome}</legend>
                             <div className='row'>
                                 {formField.filter((p) => {
@@ -134,53 +150,16 @@ const Form = () => {
 
                 </div>
             </div>
-            {/* <h1>
-                {token}
-        </h1> */}
-            {/* {loading && <Loding/>}
-            {!loading && 
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col-md-3">
-                        <div className="nav nav-tabs flex-column nav-pills tabs-container" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                                <a key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active":"" )}`} id="v-pills-home-tab" data-toggle="pill" href={`#form_${group.Id}`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="col-md-9">
-                        <div className="tab-content">
-                            {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
-                                    <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active":"" )}`}  id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
-                                        <>
-                                        <legend  key={indexName}  className="titulo-grupo">{group.Nome}</legend>
-                                        <div className='row'>
-                                            {formField.filter((p) => {
-                                                if (p.IdPropriedadeGrupo === group.Id)
-                                                    return p;
-                                            }).map((field) => (
-                                                <Field field={field} handleChange ={handleChange} />
-                                            ))}
-                                        </div>
-                                        </>
-                                        
-                                    </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>}         
             <div className='row mt-4' >
                 <div className="col-md-6">
 
                 </div>
                 <div className="col-md-6">
-                <button type="submit" onClick={handleNew} className="btn btn-primary mr-1">Novo</button>
+                    <button type="submit" onClick={handleNew} className="btn btn-primary mr-1">Novo</button>
                     <button type="submit" onClick={hanbleUpdate} className="btn btn-primary mr-1">Salvar</button>
-                    <button type="submit" className="btn btn-secondary mr-1" >Fechar</button>
+                    <a type="submit" className="btn btn-secondary mr-1" href='/'>Fechar</a>
                 </div>
-            </div> */}
-
+            </div>
         </div>
     );
 };

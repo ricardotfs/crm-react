@@ -33,6 +33,15 @@ export const update = createAsyncThunk('form/update',
     }
 );
 
+const formatData = (action) =>{
+    let data = action.payload;
+
+    data.groups.forEach(group => {
+        group.isSelected = false;
+    });
+    return data;
+}
+
 export const formSlice = createSlice({
     name:'form',
     initialState,
@@ -49,7 +58,7 @@ export const formSlice = createSlice({
             state.loading  = false;
             state.error = null;
             state.success = true;
-            state.data = action.payload;
+            state.data =  formatData(action);
         }).addCase(update.pending,(state)=> {
             state.loading  = true;
             state.error = false;
