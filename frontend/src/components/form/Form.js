@@ -143,16 +143,40 @@ const Form = () => {
 
                 </div>
             </div>
-            <div className='row mt-4' >
+            <div class="row">
+                <div class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <button onClick={handleNew} class="btn btn-primary" type="submit">Novo</button>
+                                <button onClick={hanbleUpdate} class="btn btn-primary" type="reset">Salvar</button>
+                                <a class="btn btn-mint" href='/' type="reset">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {/* <div className='row mt-4' >
+
                 <div className="col-md-6">
 
                 </div>
                 <div className="col-md-6">
-                    <button type="submit" onClick={handleNew} className="btn btn-primary mr-1">Novo</button>
-                    <button type="submit" onClick={hanbleUpdate} className="btn btn-primary mr-1">Salvar</button>
-                    <a type="submit" className="btn btn-secondary mr-1" href='/'>Fechar</a>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <button onClick={handleNew} class="btn btn-mint" type="submit">Novo</button>
+                                <button onClick={hanbleUpdate} class="btn btn-warning" type="reset">Salvar</button>
+                                <a class="btn btn-warning" href='/' type="reset">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

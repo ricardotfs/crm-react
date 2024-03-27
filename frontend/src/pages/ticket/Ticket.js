@@ -46,7 +46,7 @@ const Ticket = () => {
                                 </tr>
                                 <tr>
                                     <td class="text-main text-bold">Status:</td>
-                                    <td class="text-right text-bold text-main">$ 612.04</td>
+                                    <td class="text-right"><span class="badge badge-success">Complete</span></td>
                                 </tr>
                             </tbody>
                         </table>
