@@ -116,13 +116,6 @@ const Form = () => {
 
     return (
         <div className='mt-2 row'>
-            <div  className='mt-5 row'>
-                <div className='col-md-2'></div>
-                <div className='col-md-10'>
-                    <h3>TKT000{id}</h3>
-                </div>
-                
-            </div>
             <div className='mt-1 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
                 <div className="tab-base tab-stacked-left col-md-2">
                     <ul className="nav nav-tabs">
