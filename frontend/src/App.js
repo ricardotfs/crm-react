@@ -21,7 +21,7 @@ function App() {
       <Navbar/>
       <div className='container'>
         <Routes>
-          <Route path='/' element={auth ? <Home/> : <Navigate to='/login'/>} />
+          <Route path='/' element={<Home/>} />
           <Route path='/login' element={<Login/> } />
           <Route path='/ticket/:id' element={<Ticket/> } />
         </Routes>
