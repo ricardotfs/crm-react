@@ -43,7 +43,7 @@ const getById = async (req, res) => {
 
     setTimeout((t => {
         return res.status(200).json({
-            activity: { Id: id, Token: `TKT${id}` },
+            activity: { Id: id, Token: `TKT${id.toString().padStart(5, '0')}` },
             groups
         });
 
