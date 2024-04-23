@@ -1,12 +1,10 @@
-import React from "react";
-import { useParams } from 'react-router-dom';
+import React  from "react";
 
-const HeaderActivity = () => {
-
-    const { id } = useParams();
+const HeaderActivity = ({tipo,data}) => { 
+    
     return (
         <div id="page-title">
-            <h1 class="page-header text-overflow mt-5">TKT0001</h1>
+            <h1 class="page-header text-overflow mt-5">{data.Token}</h1>
             <div className='row'>
                 <div class="col-md-4">
                     <table class="pull-right invoice-details">

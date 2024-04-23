@@ -2,12 +2,12 @@ import React from 'react'
 import './Ticket.css'
 //Components
 import Form from '../../components/form/Form'
-import HeaderActivity from '../../components/header/HeaderActivity'
+
 const Ticket = () => {
+    const TICKET = 6;
     return (
         <>
-           <HeaderActivity/>
-            <Form />
+            <Form tipo={TICKET}/>
         </>
     );
 };

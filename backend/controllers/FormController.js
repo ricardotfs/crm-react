@@ -4,18 +4,22 @@ const getById = async (req, res) => {
 
     const { id, tipo } = req.body;
 
-    console.log(`${id} ${tipo}`);
+    let descricaoTipo = 'Ticket';
+    if (tipo === 6)
+        descricaoTipo = 'Ticket';
+
+    const activity = await executeQuery(`SELECT 
+                                            Id,IdConta,Token,DataCriacao,IdUsuarioCriacao,DataAlteracao,
+                                            IdusuarioAlteracao,IdProprietario,IdStatusTicket
+                                        FROM ${descricaoTipo} 
+          
+                                        WHERE Id = ${id}`);
+
     const groups = await executeQuery(`SELECT 
                                             Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
                                        FROM propriedadegrupo 
                                        where IdTipoCadastro = 6
                                        order by propriedadegrupo.Ordem`);
-
-    let descricaoTipo = 'Ticket';
-    if (tipo === 6)
-        descricaoTipo = 'Ticket';
-
-    console.log(groups);
 
     for (let index = 0; index < groups.length; index++) {
         const group = groups[index];
@@ -38,11 +42,16 @@ const getById = async (req, res) => {
         });
 
         group.properties = properties;
-
     }
 
+  
+
     setTimeout((t => {
+
+        console.log(activity[0]);
+        
         return res.status(200).json({
+            header:activity[0],
             activity: { Id: id, Token: `TKT${id.toString().padStart(5, '0')}` },
             groups
         });
@@ -57,12 +66,12 @@ const update = async (req, res) => {
 
     let idAtiv = id;
 
-    if(idAtiv == 0){
-        let result =  await executeQueryReturn(`INSERT INTO ticket (IdConta,DataCriacao,Token,IdStatusTicket) VALUES(${idConta},NOW(),'',1);`);
+    if (idAtiv == 0) {
+        let result = await executeQueryReturn(`INSERT INTO ticket (IdConta,DataCriacao,Token,IdStatusTicket) VALUES(${idConta},NOW(),'',1);`);
         idAtiv = result[0].lastInsertId;
 
         executeQuery(`UPDATE Ticket set Token  = 'TKT${idAtiv.toString().padStart(5, '0')}' where id = ${idAtiv}`);
-     }
+    }
 
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];

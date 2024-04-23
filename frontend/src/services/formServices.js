@@ -1,6 +1,5 @@
 import {api,requestConfig} from '../utils/Config'
 
-
 const getById = async(data) =>{
 
    
@@ -29,6 +28,7 @@ const update = async(data) =>{
         .then((res) => res.json())
         .catch((err) => err);
         
+        console.log(res);
         return res;
         
     } catch (error) {
