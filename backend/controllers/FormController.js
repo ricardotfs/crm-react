@@ -8,12 +8,22 @@ const getById = async (req, res) => {
     if (tipo === 6)
         descricaoTipo = 'Ticket';
 
-    const activity = await executeQuery(`SELECT 
-                                            Id,IdConta,Token,DataCriacao,IdUsuarioCriacao,DataAlteracao,
-                                            IdusuarioAlteracao,IdProprietario,IdStatusTicket
-                                        FROM ${descricaoTipo} 
-          
-                                        WHERE Id = ${id}`);
+    const activity = await executeQuery(`
+                                        SELECT 
+                                            ${descricaoTipo}.Id,
+                                            ${descricaoTipo}.IdConta,
+                                            ${descricaoTipo}.Token,
+                                            ${descricaoTipo}.DataCriacao,
+                                            UsuarioCriacao.Nome AS UsuarioCriacao,
+                                            ${descricaoTipo}.DataAlteracao,
+                                            UsuarioAlteracao.Nome AS UsuarioAlteracao,
+                                            Proprietario.Nome AS Proprietario,
+                                            ${descricaoTipo}.IdStatus${descricaoTipo}
+                                        FROM ${descricaoTipo}
+                                        LEFT JOIN Usuario AS UsuarioCriacao ON UsuarioCriacao.Id = ${descricaoTipo}.IdUsuarioCriacao
+                                        LEFT JOIN Usuario AS UsuarioAlteracao ON UsuarioAlteracao.Id = ${descricaoTipo}.IdusuarioAlteracao
+                                        LEFT JOIN Usuario AS Proprietario ON Proprietario.Id = ${descricaoTipo}.IdProprietario
+                                        WHERE ${descricaoTipo}.Id = ${id}`);
 
     const groups = await executeQuery(`SELECT 
                                             Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
