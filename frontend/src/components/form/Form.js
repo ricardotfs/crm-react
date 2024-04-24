@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getById, update } from '../../slice/formSlice';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import Loding from '../loding/Loding'
 import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
@@ -113,7 +113,9 @@ const Form = ({tipo}) => {
             }
         });
     };
-
+    const handleComeBackHome = () =>{
+        //history.push('/');
+    }
     return (
         <>
            {data && data.header && 
@@ -148,38 +150,22 @@ const Form = ({tipo}) => {
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-
                     </div>
                     <div class="col-sm-6">
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-9 col-sm-offset-3">
-                                    <button onClick={handleNew} class="btn btn-primary" type="submit">Novo</button>
-                                    <button onClick={hanbleUpdate} class="btn btn-primary" type="reset">Salvar</button>
-                                    <a class="btn btn-mint" href='/' type="reset">Fechar</a>
+                                    <button onClick={handleNew} class="btn btn-primary margin-form" type="submit">Novo</button>
+                                    <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
+                                    <Link to={'/'}>
+                                        <button class="btn btn-primary margin-form " type="reset">Fechar</button>
+                                    </Link>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                {/* <div className='row mt-4' >
-
-                <div className="col-md-6">
-
-                </div>
-                <div className="col-md-6">
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-sm-9 col-sm-offset-3">
-                                <button onClick={handleNew} class="btn btn-mint" type="submit">Novo</button>
-                                <button onClick={hanbleUpdate} class="btn btn-warning" type="reset">Salvar</button>
-                                <a class="btn btn-warning" href='/' type="reset">Fechar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
             </div>
         </>
 

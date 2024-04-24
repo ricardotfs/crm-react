@@ -1,4 +1,7 @@
 /* Styling for the tabs container */
+.margin-form{    
+    margin-right: 4px!important;
+}
 .pointer {
     cursor: pointer;
 }
