@@ -1,6 +1,4 @@
-DELIMITER //
-
-CREATE PROCEDURE InsertOrUpdatePropriedadeRespostaTicket (
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrUpdatePropriedadeRespostaTicket`(
     IN p_IdPropriedade INT,
     IN p_IdConta INT,
     IN p_IdUser INT,
@@ -23,12 +21,11 @@ BEGIN
         SET 
             Resposta = p_Resposta,
             DataResposta = now()
-        WHERE IdPropriedade = p_IdPropriedade;
+        WHERE IdPropriedade = p_IdPropriedade
+			and IdUser = p_IdUser;
     ELSE
         -- Insert new record
         INSERT INTO propriedaderespostaticket (IdPropriedade, IdConta, IdUser, Resposta, DataResposta)
         VALUES (p_IdPropriedade, p_IdConta, p_IdUser, p_Resposta, now());
     END IF;
-END //
-
-DELIMITER ;
+END

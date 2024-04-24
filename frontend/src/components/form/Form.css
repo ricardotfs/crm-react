@@ -1,4 +1,7 @@
 /* Styling for the tabs container */
+.pointer {
+    cursor: pointer;
+}
 .titulo-grupo{
     color: #4d627b; 
     text-align: left;

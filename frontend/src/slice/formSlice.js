@@ -39,6 +39,10 @@ const formatData = (action) =>{
     data.groups.forEach(group => {
         group.isSelected = false;
     });
+    
+    if(data.groups.length > 0)
+        data.groups[0].isSelected = true;
+
     return data;
 }
 

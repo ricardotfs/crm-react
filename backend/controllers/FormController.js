@@ -14,6 +14,7 @@ const getById = async (req, res) => {
                                             ${descricaoTipo}.IdConta,
                                             ${descricaoTipo}.Token,
                                             ${descricaoTipo}.DataCriacao,
+                                            Status.Nome As Status,
                                             UsuarioCriacao.Nome AS UsuarioCriacao,
                                             ${descricaoTipo}.DataAlteracao,
                                             UsuarioAlteracao.Nome AS UsuarioAlteracao,
@@ -21,6 +22,7 @@ const getById = async (req, res) => {
                                             ${descricaoTipo}.IdStatus${descricaoTipo}
                                         FROM ${descricaoTipo}
                                         LEFT JOIN Usuario AS UsuarioCriacao ON UsuarioCriacao.Id = ${descricaoTipo}.IdUsuarioCriacao
+                                        LEFT JOIN statusticket AS Status ON Status.Id = ${descricaoTipo}.IdStatusTicket
                                         LEFT JOIN Usuario AS UsuarioAlteracao ON UsuarioAlteracao.Id = ${descricaoTipo}.IdusuarioAlteracao
                                         LEFT JOIN Usuario AS Proprietario ON Proprietario.Id = ${descricaoTipo}.IdProprietario
                                         WHERE ${descricaoTipo}.Id = ${id}`);
@@ -53,13 +55,8 @@ const getById = async (req, res) => {
 
         group.properties = properties;
     }
-
-  
-
-    setTimeout((t => {
-
-        console.log(activity[0]);
-        
+    
+    setTimeout((t => {        
         return res.status(200).json({
             header:activity[0],
             activity: { Id: id, Token: `TKT${id.toString().padStart(5, '0')}` },
@@ -67,7 +64,6 @@ const getById = async (req, res) => {
         });
 
     }), 500)
-
 }
 
 const update = async (req, res) => {

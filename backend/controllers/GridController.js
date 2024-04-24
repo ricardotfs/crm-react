@@ -20,7 +20,8 @@ const getAllActivity = async(req,res) =>{
                                             '' resposta
                                         FROM propriedadegrupo 
                                             INNER JOIN propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro}) `);
+                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro}) 
+                                            and propriedade.IsGrid = 1`);
 
     if(fields.length === 0){
         return res.status(200).json([]);
