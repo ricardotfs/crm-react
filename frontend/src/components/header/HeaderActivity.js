@@ -35,11 +35,11 @@ const HeaderActivity = ({tipo,data}) => {
                         <tbody>
                             <tr>
                                 <td class="text-left text-bold">Data de criacao:</td>
-                                <td class="text-left text-primary text-bold">{convertDateFormat(data.DataCriacao)}</td>
+                                <td class="text-left text-bold"><small>{convertDateFormat(data.DataCriacao)}</small></td>
                             </tr>
                             <tr>
                                 <td class="text-left text-bold">Usuario de criação:</td>
-                                <td class="text-left text-bold text-main">{data.UsuarioCriacao || ''}</td>
+                                <td class="text-left text-bold text-main"><small>{data.UsuarioCriacao || ''}</small></td>
                             </tr>
                         </tbody>
                     </table>
@@ -49,11 +49,11 @@ const HeaderActivity = ({tipo,data}) => {
                         <tbody>
                             <tr>
                                 <td class="text-left text-bold">Data de alteração:</td>
-                                <td class="text-left text-primary text-bold">{convertDateFormat(data.DataAlteracao)}</td>
+                                <td class="text-left text-bold"><small>{convertDateFormat(data.DataAlteracao)}</small></td>
                             </tr>
                             <tr>
                                 <td class="text-left text-bold">Usuario de alteração:</td>
-                                <td class="text-left text-bold text-main">{data.UsuarioAlteracao || ''}</td>
+                                <td class="text-left text-bold text-main"><small>{data.UsuarioAlteracao || ''}</small></td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,11 +63,11 @@ const HeaderActivity = ({tipo,data}) => {
                         <tbody>
                             <tr>
                                 <td class="text-main text-bold">Proprietário:</td>
-                                <td class="text-right text-primary text-bold">{data.Proprietario || ''}</td>
+                                <td class="text-right text-bold"><small>{data.Proprietario || ''}</small></td>
                             </tr>
                             <tr>
                                 <td class="text-main text-bold">Status:</td>
-                                <td class="text-right"><span class="badge badge-success">Complete</span></td>
+                                <td class="text-right"><span class="badge badge-success">{data.Status || ''}</span></td>
                             </tr>
                         </tbody>
                     </table>
