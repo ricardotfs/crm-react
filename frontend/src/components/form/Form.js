@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { getById, update } from '../../slice/formSlice';
-import { useParams,Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Loding from '../loding/Loding'
 import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
+import Loading from '../loding/Loding';
 
-const Form = ({tipo}) => {
+const Form = ({ tipo }) => {
     const TICKET = 'ticket';
 
     const { id } = useParams();
@@ -113,60 +114,63 @@ const Form = ({tipo}) => {
             }
         });
     };
-    const handleComeBackHome = () =>{
+    const handleComeBackHome = () => {
         //history.push('/');
     }
     return (
         <>
-           {data && data.header && 
-           <HeaderActivity tipo={tipo} data={data.header} />} 
-            <div className='mt-2 row'>
-                <div className='mt-1 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
-                    <div className="tab-base tab-stacked-left col-md-2">
-                        <ul className="pointer nav nav-tabs">
-                            {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
-                                <li key={indexGrup}  >
-                                    <a onClick={() => handleClickFormActive(data, group.Id)} key={indexGrup} className={`nav-link ${( group.isSelected ? "active" : "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="tab-content col-md-10">
-                        {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
-                            <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active" : group.isSelected ? "active" : "")}`} id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
-                                <legend style={{ 'color': '#4d627b', 'text-align': 'left' }}>{group.Nome}</legend>
-                                <div className='row'>
-                                    {formField.filter((p) => {
-                                        if (p.IdPropriedadeGrupo === group.Id)
-                                            return p;
-                                    }).map((field) => (
-                                        <Field field={field} handleChange={handleChange} />
-                                    ))}
+            {loading && <Loading />}
+            {!loading && <div>
+                {data && data.header && <HeaderActivity tipo={tipo} data={data.header} />}
+                <div className='mt-2 row'>
+                    <div className='mt-1 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
+                        <div className="tab-base tab-stacked-left col-md-2">
+                            <ul className="pointer nav nav-tabs">
+                                {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
+                                    <li key={indexGrup}  >
+                                        <a onClick={() => handleClickFormActive(data, group.Id)} key={indexGrup} className={`nav-link ${(group.isSelected ? "active" : "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="tab-content col-md-10">
+                            {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexName) => (
+                                <div key={indexName} className={`tab-pane in ${(indexName === 0 ? "active" : group.isSelected ? "active" : "")}`} id={`form_${group.Id}`} role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                    <legend style={{ 'color': '#4d627b', 'text-align': 'left' }}>{group.Nome}</legend>
+                                    <div className='row'>
+                                        {formField.filter((p) => {
+                                            if (p.IdPropriedadeGrupo === group.Id)
+                                                return p;
+                                        }).map((field) => (
+                                            <Field field={field} handleChange={handleChange} />
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
 
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="panel-footer">
-                            <div class="row">
-                                <div class="col-sm-9 col-sm-offset-3">
-                                    <button onClick={handleNew} class="btn btn-primary margin-form" type="submit">Novo</button>
-                                    <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
-                                    <Link to={'/'}>
-                                        <button class="btn btn-primary margin-form " type="reset">Fechar</button>
-                                    </Link>
-                                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-9 col-sm-offset-3">
+                                        <button onClick={handleNew} class="btn btn-primary margin-form" type="submit">Novo</button>
+                                        <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
+                                        <Link to={'/'}>
+                                            <button class="btn btn-primary margin-form " type="reset">Fechar</button>
+                                        </Link>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            }
         </>
 
     );

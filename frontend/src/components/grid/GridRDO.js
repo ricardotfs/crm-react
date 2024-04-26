@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../../node_modules/@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-
+import Loading from '../loding/Loding';
 //hooks
 import './GridRDO.css'
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 //slice
 import { gridData } from '../../slice/gridSlices';
 
@@ -28,12 +28,12 @@ import {
 // import { CurrencyTypeProvider } from '../../../theme-sources/bootstrap4/components/currency-type-provider';
 
 const GridRDO = () => {
-  
+
   const dispatch = useDispatch();
   const navigete = useNavigate();
-  const {rows:rowData,totalCount:totalCountBase,loading:loadingBase} = useSelector((state) => state.grid)
-  
-  const [columns,setColumns] = useState([]);
+  const { rows: rowData, totalCount: totalCountBase, loading: loadingBase } = useSelector((state) => state.grid)
+
+  const [columns, setColumns] = useState([]);
   const [tableColumnExtensions] = useState();
   const [sorting, setSorting] = useState([{ columnName: 'Token', direction: 'asc' }]);
   const [filters, setFilters] = useState([]);
@@ -56,79 +56,83 @@ const GridRDO = () => {
       acc.push(`and temp.${columnName} like '%${encodeURIComponent(value)}%'`);
       return acc;
     }, []).join(' ');
-    
+
     if (filter.length > 1) {
       filter = `${filter}`;
     }
-   
-    const json = {idTipoCadastro:6,page:currentPage,sizePage: pageSize,sorting:sorting,filter:filter};
+
+    const json = { idTipoCadastro: 6, page: currentPage, sizePage: pageSize, sorting: sorting, filter: filter };
     dispatch(gridData(json));
 
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     loadData();
 
-    setTimeout(() =>{
-      if(rowData !== undefined && rowData.length > 0){
+    setTimeout(() => {
+      if (rowData !== undefined && rowData.length > 0) {
         setColumns(getDynamicColumns(rowData[0]))
       }
-    },300)
-      
-  }, [currentPage,pageSize,sorting]);
+    }, 300)
+
+  }, [currentPage, pageSize, sorting]);
 
   setTimeout(() => {
-    if(rowData !== undefined && rowData.length > 0){
+    if (rowData !== undefined && rowData.length > 0) {
       setColumns(getDynamicColumns(rowData[0]))
     }
   }, 500);
 
   const getDynamicColumns = (obj) => {
-    
-    return Object.keys(obj).map(key =>  (  key === "Token" 
-    ? { name: key , title: key,getCellValue: row => <a href={`/ticket/${parseInt(row.Token .replace(/\D/g, ''), 10)}`}>{row.Token}</a> }
-    : { name: key , title: key }))
+
+    return Object.keys(obj).map(key => (key === "Token"
+      ? { name: key, title: key, getCellValue: row => <a href={`/ticket/${parseInt(row.Token.replace(/\D/g, ''), 10)}`}>{row.Token}</a> }
+      : { name: key, title: key }))
   }
 
-  
-if(loadingBase){
-  return <p>Carregando.....</p>  
-}
 
-const handleSearchGrid = () =>{
-  loadData();
-  setFilters([]);
-}
-const commitChanges = () => {
-  return navigete(`/login`);
-};
+  if (loadingBase) {
+    return <p>Carregando.....</p>
+  }
+
+  const handleSearchGrid = () => {
+    loadData();
+    setFilters([]);
+  }
+  const commitChanges = () => {
+    return navigete(`/login`);
+  };
   return (
-   
-    <div id='grid'>
+    <>
+      {loadingBase && <Loading/>}
+      {!loadingBase && <div id='grid'>
 
-      <div className='row'>
-        <div className='col-md-2'>
-          <button className='btn btn-primary' onClick={handleSearchGrid}>Atualizar</button>
+        <div className='row'>
+          <div className='col-md-2'>
+            <button className='btn btn-primary' onClick={handleSearchGrid}>Atualizar</button>
+          </div>
         </div>
-      </div>
-      
-      <div className="card" style={{ position: 'relative' }}>
+
+        <div className="card" style={{ position: 'relative' }}>
           <Grid rows={rowData} columns={columns}>
-            <FilteringState  onFiltersChange={setFilters} />   
+            <FilteringState onFiltersChange={setFilters} />
             <EditingState
-            onEditingRowIdsChange={commitChanges}/>
+              onEditingRowIdsChange={commitChanges} />
             <SortingState sorting={sorting} onSortingChange={setSorting} />
             <PagingState currentPage={currentPage} onCurrentPageChange={setCurrentPage} pageSize={pageSize} onPageSizeChange={changePageSize} />
             <CustomPaging totalCount={totalCountBase} />
             <Table columnExtensions={tableColumnExtensions} >
             </Table>
             <TableHeaderRow showSortingControls />
-            <TableFilterRow  />
+            <TableFilterRow />
             <PagingPanel pageSizes={pageSizes} />
           </Grid>
           {/* {loading && <Loading />} */}
+        </div>
       </div>
-    </div>
+      }
+    </>
+
 
   );
 };
