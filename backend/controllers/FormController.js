@@ -22,7 +22,7 @@ const getById = async (req, res) => {
                                             ${descricaoTipo}.IdStatus${descricaoTipo}
                                         FROM ${descricaoTipo}
                                         LEFT JOIN Usuario AS UsuarioCriacao ON UsuarioCriacao.Id = ${descricaoTipo}.IdUsuarioCriacao
-                                        LEFT JOIN statusticket AS Status ON Status.Id = ${descricaoTipo}.IdStatusTicket
+                                        LEFT JOIN status${descricaoTipo} AS Status ON Status.Id = ${descricaoTipo}.IdStatusTicket
                                         LEFT JOIN Usuario AS UsuarioAlteracao ON UsuarioAlteracao.Id = ${descricaoTipo}.IdusuarioAlteracao
                                         LEFT JOIN Usuario AS Proprietario ON Proprietario.Id = ${descricaoTipo}.IdProprietario
                                         WHERE ${descricaoTipo}.Id = ${id}`);
