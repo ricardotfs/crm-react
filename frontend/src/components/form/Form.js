@@ -154,18 +154,25 @@ const Form = ({ tipo }) => {
                         <div class="col-sm-6">
                         </div>
                         <div class="col-sm-6">
-                            <div class="panel-footer">
+                            <div class="pad-ver mt-5">
+
+                                <button onClick={handleNew} class="btn btn-primary margin-form" type="submit">Novo</button>
+
+                                <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
+
+
+                                <Link to={'/'}>
+                                    <button class="btn btn-primary margin-form " type="reset">Fechar</button>
+                                </Link>
+                            </div>
+                            {/* <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-sm-9 col-sm-offset-3">
-                                        <button onClick={handleNew} class="btn btn-primary margin-form" type="submit">Novo</button>
-                                        <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
-                                        <Link to={'/'}>
-                                            <button class="btn btn-primary margin-form " type="reset">Fechar</button>
-                                        </Link>
+                                  
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -27,8 +27,8 @@ const HeaderActivity = ({tipo,data}) => {
     
 
     return (
-        <div id="page-title">
-            <h1 class="page-header text-overflow">{data.Token}</h1>
+        <div id="page-title ml-1">
+            <h1 class="page-header text-overflow ">{data.Token}</h1>
             <div className='row'>
                 <div class="col-md-4">
                     <table class="pull-right invoice-details">

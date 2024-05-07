@@ -1,6 +1,7 @@
 .container{
-  min-height: 70vh;
+  min-height: 100vh;
 }
-#content-container {
-  height: 1px!important;
+#content-container::before {
+  height: 1px !important;
 }
+
