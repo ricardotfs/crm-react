@@ -39,7 +39,7 @@ const getById = async (req, res) => {
         const properties = await executeQuery(` select 
                                                         propriedade.Id,propriedade.IdConta,propriedade.IdPropriedadeGrupo,
                                                         propriedade.IdTipoPropriedade,propriedade.Nome,propriedade.Descricao,
-                                                        propriedade.Ordem,
+                                                        propriedade.Ordem, propriedade.IsRequired,
                                                         propriedaderesposta${descricaoTipo}.Resposta 
                                                 from propriedade 
                                                 left join propriedaderesposta${descricaoTipo} on propriedade.Id = propriedaderesposta${descricaoTipo}.IdPropriedade  and propriedaderespostaticket.Iduser = ${id}
