@@ -3,14 +3,18 @@
 const Field = ({ field, handleChange }) => {
 
     const inputText = (field, handleChange) => {
+        
         return (
-            <input
-                type='text'
-                id={field.Nome}
-                className="form-control"
-                value={field.Resposta || ''}
-                onChange={(event) => handleChange(event, field.Id)}
-            />
+            <>
+                <input
+                    type='text'
+                    id={field.Nome}
+                    className="form-control"
+                    value={field.Resposta || ''}
+                    onChange={(event) => handleChange(event, field.Id)}
+                />
+               {field.IsRequired === 1 &&  field.Resposta === ''  && <span style={{ color: 'red' }}>Campo Obrigatório</span>}
+            </>
         )
     }
     const inputSelect = (field, handleChange) => {
