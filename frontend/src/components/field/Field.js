@@ -2,20 +2,23 @@
 import './Field.css'
 
 const Field = ({ field, handleChange }) => {
+    const isRequired = 1;
+    const text = 1;
+    const combo = 2;
 
     const inputText = (field, handleChange) => {
         
         return (
             <>
-                <label className={`form-label ${(field.IsRequired === 1 &&  field.Resposta === ''? "form-label-crm" :"")}`} htmlFor={field.Nome}>{field.Nome}</label>
+                <label className={`form-label ${(field.IsRequired === isRequired &&  field.Resposta === ''? "form-label-crm" :"")}`} htmlFor={field.Nome}>{field.Nome}</label>
                 <input
                     type='text'
                     id={field.Nome}
-                    className={`form-control ${(field.IsRequired === 1 &&  field.Resposta === ''? "required-crm" :"")}`}
+                    className={`form-control ${(field.IsRequired === isRequired &&  field.Resposta === ''? "required-crm" :"")}`}
                     value={field.Resposta || ''}
                     onChange={(event) => handleChange(event, field.Id)}
                 />
-               {field.IsRequired === 1 &&  field.Resposta === ''  && <span style={{ color: '#e96666af' }}>Campo Obrigatório</span>}
+               {field.IsRequired === isRequired &&  field.Resposta === ''  && <span style={{ color: '#e96666af' }}>Campo Obrigatório</span>}
             </>
         )
     }
@@ -36,9 +39,10 @@ const Field = ({ field, handleChange }) => {
         <div key={field.Id}>
             
             {
-                field.IdTipoPropriedade === 1 ? inputText(field, handleChange) :
-                    field.IdTipoPropriedade === 2 ? inputSelect(field, handleChange) :
-                        inputText(field, handleChange)
+                field.IdTipoPropriedade === text ? 
+                    inputText(field, handleChange) : 
+                field.IdTipoPropriedade === combo ? 
+                    inputSelect(field, handleChange) : inputText(field, handleChange)
             }
         </div>
     )
