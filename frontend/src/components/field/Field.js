@@ -7,6 +7,7 @@ const Field = ({ field, handleChange }) => {
         
         return (
             <>
+                <label className={`form-label ${(field.IsRequired === 1 &&  field.Resposta === ''? "form-label-crm" :"")}`} htmlFor={field.Nome}>{field.Nome}</label>
                 <input
                     type='text'
                     id={field.Nome}
@@ -33,7 +34,7 @@ const Field = ({ field, handleChange }) => {
     }
     return (
         <div key={field.Id}>
-            <label className="form-label" htmlFor={field.Nome}>{field.Nome}</label>
+            
             {
                 field.IdTipoPropriedade === 1 ? inputText(field, handleChange) :
                     field.IdTipoPropriedade === 2 ? inputSelect(field, handleChange) :
