@@ -68,7 +68,6 @@ const Form = ({ tipo }) => {
 
 
     const handleChange = (event, fieldId) => {
-        
         const updatedFields = formField.map((field) => {
             if (field.Id === fieldId) {
                 return { ...field, Resposta: event.target.value,Valid : (field.IsRequired === 1 &&  field.Resposta === '' ? "IsRequired-crm":"" ) };
