@@ -8,6 +8,7 @@ import Loding from '../loding/Loding'
 import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
 import Loading from '../loding/Loding';
+import $ from 'jquery';
 
 const Form = ({ tipo }) => {
     const TICKET = 'ticket';
@@ -70,7 +71,7 @@ const Form = ({ tipo }) => {
     const handleChange = (event, fieldId) => {
         const updatedFields = formField.map((field) => {
             if (field.Id === fieldId) {
-                return { ...field, Resposta: event.target.value,Valid : (field.IsRequired === 1 &&  field.Resposta === '' ? "IsRequired-crm":"" ) };
+                return { ...field, Resposta: event.target.value, Valid: (field.IsRequired === 1 && field.Resposta === '' ? "IsRequired-crm" : "") };
             }
             return field;
         });
@@ -80,6 +81,28 @@ const Form = ({ tipo }) => {
 
     const hanbleUpdate = (e) => {
         e.preventDefault();
+        let valid = true;
+
+        formField.forEach(element => {
+            if (element.IsRequired === 1 && element.Resposta === '') {
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+
+            // $.niftyNoty({
+            //     type: 'danger',
+            //     icon: 'pli-cross icon-2x',
+            //     message: 'User declined dialog.',
+            //     container: 'floating',
+            //     timer: 5000
+            // });
+
+            return;
+
+
+        }
 
         const form = {
             id: idAtiv,
@@ -114,9 +137,7 @@ const Form = ({ tipo }) => {
             }
         });
     };
-    const handleComeBackHome = () => {
-        //history.push('/');
-    }
+
     return (
         <>
             {loading && <Loading />}

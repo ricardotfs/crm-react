@@ -18,7 +18,7 @@ const Field = ({ field, handleChange }) => {
                     value={field.Resposta || ''}
                     onChange={(event) => handleChange(event, field.Id)}
                 />
-               {field.IsRequired === isRequired &&  field.Resposta === ''  && <span style={{ color: '#e96666af' }}>Campo Obrigatório</span>}
+            {field.IsRequired === isRequired &&  field.Resposta === ''  && <span style={{ color: '#e96666af' }}>Campo Obrigatório</span>}
             </>
         )
     }
