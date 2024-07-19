@@ -8,7 +8,7 @@ import Loding from '../loding/Loding'
 import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
 import Loading from '../loding/Loding';
-import $ from 'jquery';
+
 
 const Form = ({ tipo }) => {
     const TICKET = 'ticket';
@@ -17,10 +17,11 @@ const Form = ({ tipo }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { dataForm, data, loading, message } = useSelector((state) => state.form);
+    const { dataForm, data, loading, successUpdate } = useSelector((state) => state.form);
     const [token, setToken] = useState('');
     const [idAtiv, setIdAtiv] = useState(id);
     const [formField, setFormFields] = useState([]);
+    const [msg,setMsg]= useState(false);
     const array = [];
 
     useEffect(() => {
@@ -63,6 +64,20 @@ const Form = ({ tipo }) => {
 
     }, [dispatch]);
 
+    useEffect(()=> { 
+
+        if(!successUpdate){
+            return;
+        }
+        
+        setMsg(true);
+
+        setTimeout(()=>{
+            setMsg(false);
+        },10000);
+
+    },[successUpdate]);
+
     const handleCallGrid = () => {
         navigate('/');
     }
@@ -88,21 +103,6 @@ const Form = ({ tipo }) => {
                 valid = false;
             }
         });
-
-        if (!valid) {
-
-            // $.niftyNoty({
-            //     type: 'danger',
-            //     icon: 'pli-cross icon-2x',
-            //     message: 'User declined dialog.',
-            //     container: 'floating',
-            //     timer: 5000
-            // });
-
-            return;
-
-
-        }
 
         const form = {
             id: idAtiv,
@@ -138,8 +138,16 @@ const Form = ({ tipo }) => {
         });
     };
 
+
+
     return (
         <>
+           { msg &&  
+                <div class="alert alert-success">
+			        <strong>Well done!</strong> You successfully read this important alert message.
+                </div>
+            }
+			
             {loading && <Loading />}
             {!loading && <div>
                 {data && data.header && <HeaderActivity tipo={tipo} data={data.header} />}

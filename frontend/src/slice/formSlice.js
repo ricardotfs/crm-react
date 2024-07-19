@@ -6,7 +6,8 @@ const initialState = {
     error:false,
     success:false,
     loading:false,
-    message:null
+    message:null,
+    successUpdate:false
 }
 
 export const getById = createAsyncThunk('form/getById',
@@ -66,10 +67,13 @@ export const formSlice = createSlice({
         }).addCase(update.pending,(state)=> {
             state.loading  = true;
             state.error = false;
+            state.success = false;
+            state.successUpdate = false
         }).addCase(update.fulfilled,(state,action)=> {
             state.loading  = false;
             state.error = null;
             state.success = true;
+            state.successUpdate = true;
             state.dataForm = action.payload;
         }).addCase(update.rejected,(state,action)=> {
             state.loading  = false;
