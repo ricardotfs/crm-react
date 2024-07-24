@@ -9,7 +9,6 @@ import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
 import Loading from '../loding/Loding';
 
-
 const Form = ({ tipo }) => {
     const TICKET = 'ticket';
 
@@ -64,6 +63,7 @@ const Form = ({ tipo }) => {
 
     }, [dispatch]);
 
+
     useEffect(()=> { 
 
         if(!successUpdate){
@@ -74,7 +74,7 @@ const Form = ({ tipo }) => {
 
         setTimeout(()=>{
             setMsg(false);
-        },10000);
+        },5000);
 
     },[successUpdate]);
 
