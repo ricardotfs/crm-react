@@ -8,9 +8,11 @@ import Loding from '../loding/Loding'
 import Field from '../field/Field';
 import HeaderActivity from '../header/HeaderActivity'
 import Loading from '../loding/Loding';
+import Notification from '../notification/Notification';
 
 const Form = ({ tipo }) => {
     const TICKET = 'ticket';
+    const [notifications, setNotifications] = useState([]);
 
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -22,6 +24,18 @@ const Form = ({ tipo }) => {
     const [formField, setFormFields] = useState([]);
     const [msg,setMsg]= useState(false);
     const array = [];
+
+    const addNotification = (message, type) => {
+        const id = new Date().getTime();
+        setNotifications([...notifications, { id, message, type }]);
+        
+        setTimeout(() => {
+            setNotifications(notifications.filter(notification => notification.id !== id));
+        }, 5000); // Auto remove after 5 seconds
+    };
+    const removeNotification = (id) => {
+        setNotifications(notifications.filter(notification => notification.id !== id));
+    };
 
     useEffect(() => {
         if (dataForm !== undefined) {
@@ -71,7 +85,7 @@ const Form = ({ tipo }) => {
         }
         
         setMsg(true);
-
+        addNotification('sdfsdfsd','erro');
         setTimeout(()=>{
             setMsg(false);
         },5000);
@@ -142,12 +156,17 @@ const Form = ({ tipo }) => {
 
     return (
         <>
-           { msg &&  
-                <div class="alert alert-success">
-			        <strong>Well done!</strong> You successfully read this important alert message.
-                </div>
-            }
-			
+         <div className="notification-container">
+            {notifications.map((notification) => (
+                <Notification
+                    key={notification.id}
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => removeNotification(notification.id)}
+                />
+            ))}
+            </div>
+            
             {loading && <Loading />}
             {!loading && <div>
                 {data && data.header && <HeaderActivity tipo={tipo} data={data.header} />}
