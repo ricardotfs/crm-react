@@ -85,7 +85,7 @@ const Form = ({ tipo }) => {
         }
         
         setMsg(true);
-        addNotification('sdfsdfsd','erro');
+        addNotification('sdfsdfsd','success');
         setTimeout(()=>{
             setMsg(false);
         },5000);
