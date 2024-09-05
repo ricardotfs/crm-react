@@ -176,7 +176,7 @@ const Form = ({ tipo }) => {
                             <ul className="pointer nav nav-tabs">
                                 {data && data.groups && data.groups.length > 0 && data.groups.map((group, indexGrup) => (
                                     <li key={indexGrup}  >
-                                        <a onClick={() => handleClickFormActive(data, group.Id)} key={indexGrup} className={`nav-link ${(group.isSelected ? "active" : "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
+                                        <a onClick={() => handleClickFormActive(data, group.Id,this)} key={indexGrup} className={`nav-link ${(indexGrup === 0 ? "active" : "")}`} id="v-pills-home-tab" data-toggle="pill" href={`#`} role="tab" aria-controls="v-pills-home" aria-selected="true">{group.Nome}</a>
                                     </li>
                                 ))}
                             </ul>
