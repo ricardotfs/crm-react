@@ -5,8 +5,15 @@ const getById = async (req, res) => {
     const { id, tipo } = req.body;
 
     let descricaoTipo = 'Ticket';
-    if (tipo === 6)
+    let descricaoToken = 'TKT';
+    if (tipo === 6){
         descricaoTipo = 'Ticket';
+        descricaoToken = 'TKT';
+    }
+    else if (tipo === 1){
+        descricaoTipo = 'Contato';
+        descricaoToken = 'CN';
+    }
 
     const activity = await executeQuery(`
                                         SELECT 
@@ -59,7 +66,7 @@ const getById = async (req, res) => {
     setTimeout((t => {        
         return res.status(200).json({
             header:activity[0],
-            activity: { Id: id, Token: `TKT${id.toString().padStart(5, '0')}` },
+            activity: { Id: id, Token: `${descricaoToken}${id.toString().padStart(5, '0')}` },
             groups
         });
 
@@ -68,21 +75,33 @@ const getById = async (req, res) => {
 
 const update = async (req, res) => {
 
-    const { id, idConta, properties } = req.body;
+    const { id,tipo, idConta, properties } = req.body;
+
+    let descricaoTipo = 'Ticket';
+    let descricaoToken = 'TKT';
+    
+    if (tipo === 6){
+        descricaoTipo = 'Ticket';
+        descricaoToken = 'TKT';
+    }
+   else if (tipo === 1){
+        descricaoTipo = 'Contato';
+        descricaoToken = 'CN';
+    }
 
     let idAtiv = id;
 
     if (idAtiv == 0) {
-        let result = await executeQueryReturn(`INSERT INTO ticket (IdConta,DataCriacao,Token,IdStatusTicket) VALUES(${idConta},NOW(),'',1);`);
+        let result = await executeQueryReturn(`INSERT INTO ${descricaoTipo} (IdConta,DataCriacao,Token,IdStatus${descricaoTipo} VALUES(${idConta},NOW(),'',1);`);
         idAtiv = result[0].lastInsertId;
 
-        executeQuery(`UPDATE Ticket set Token  = 'TKT${idAtiv.toString().padStart(5, '0')}' where id = ${idAtiv}`);
+        executeQuery(`UPDATE ${descricaoTipo} set Token  = '${descricaoToken}${idAtiv.toString().padStart(5, '0')}' where id = ${idAtiv}`);
     }
 
     for (let i = 0; i < properties.length; i++) {
         const prop = properties[i];
 
-        executeQuery(`CALL InsertOrUpdatePropriedadeRespostaTicket(${prop.Id}, ${idConta},  ${idAtiv}, '${prop.Resposta}');`);
+        executeQuery(`CALL InsertOrUpdatePropriedadeResposta${descricaoTipo}(${prop.Id}, ${idConta},  ${idAtiv}, '${prop.Resposta}');`);
 
     }
 

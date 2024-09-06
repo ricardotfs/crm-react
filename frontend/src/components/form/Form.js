@@ -121,6 +121,7 @@ const Form = ({ tipo }) => {
         const form = {
             id: idAtiv,
             idConta: 1,
+            tipo:tipo,
             properties: formField,
         }
 
