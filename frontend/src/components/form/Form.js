@@ -10,8 +10,9 @@ import HeaderActivity from '../header/HeaderActivity'
 import Loading from '../loding/Loding';
 import Notification from '../notification/Notification';
 
-const Form = ({ tipo }) => {
-    const TICKET = 'ticket';
+const Form = ({ type, typeName }) => {
+
+
     const [notifications, setNotifications] = useState([]);
 
     const { id } = useParams();
@@ -67,12 +68,12 @@ const Form = ({ tipo }) => {
 
         let tipo = '';
 
-        if (location.pathname.includes('ticket')) {
-            tipo = TICKET;
+        if (location.pathname.includes(typeName)) {
+            tipo = typeName;
         }
 
 
-        const search = { id: id, tipo: tipo };
+        const search = { id: id, tipo: type };
         dispatch(getById(search));
 
     }, [dispatch]);
@@ -85,7 +86,7 @@ const Form = ({ tipo }) => {
         }
         
         setMsg(true);
-        addNotification('sdfsdfsd','success');
+        addNotification('','success');
         setTimeout(()=>{
             setMsg(false);
         },5000);
@@ -121,7 +122,7 @@ const Form = ({ tipo }) => {
         const form = {
             id: idAtiv,
             idConta: 1,
-            tipo:tipo,
+            tipo:type,
             properties: formField,
         }
 
@@ -163,6 +164,7 @@ const Form = ({ tipo }) => {
                     key={notification.id}
                     message={notification.message}
                     type={notification.type}
+                    activity={type}
                     onClose={() => removeNotification(notification.id)}
                 />
             ))}
@@ -170,7 +172,7 @@ const Form = ({ tipo }) => {
             
             {loading && <Loading />}
             {!loading && <div>
-                {data && data.header && <HeaderActivity tipo={tipo} data={data.header} />}
+                {data && data.header && <HeaderActivity tipo={type} data={data.header} />}
                 <div className='mt-2 row'>
                     <div className='mt-1 row' style={{ 'background-color': '#ecf0f5', 'padding': '1px;' }}>
                         <div className="tab-base tab-stacked-left col-md-2">

@@ -4,10 +4,11 @@ import './Ticket.css'
 import Form from '../../components/form/Form'
 
 const Ticket = () => {
-    const TICKET = 6;
+    const type = 6;
+    const typeName = 'ticket';
     return (
         <>
-            <Form tipo={TICKET}/>
+            <Form type={type} typeName={typeName}/>
         </>
     );
 };
