@@ -8,6 +8,7 @@ import { useAuth } from './hooks/useAuth';
 import Navbar from './components/navbar/Navbar';
 import NavbarLateral from './components/navbar/NavbarLateral';
 import Ticket from './pages/ticket/Ticket';
+import Phone from './pages/phone/Phone';
 
 function App() {
   const { auth, loading } = useAuth();
@@ -25,6 +26,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/ticket/:id' element={<Ticket />} />
+            <Route path='/phone/:id' element={<Phone />} />
           </Routes>
         </div>
         <NavbarLateral />
