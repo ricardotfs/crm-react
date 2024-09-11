@@ -10,6 +10,10 @@ const getById = async (req, res) => {
         descricaoTipo = 'Ticket';
         descricaoToken = 'TKT';
     }
+    else if (tipo === 4){
+        descricaoTipo = 'phone';
+        descricaoToken = 'PH';
+    }
     else if (tipo === 1){
         descricaoTipo = 'Contato';
         descricaoToken = 'CN';
@@ -29,7 +33,7 @@ const getById = async (req, res) => {
                                             ${descricaoTipo}.IdStatus${descricaoTipo}
                                         FROM ${descricaoTipo}
                                         LEFT JOIN Usuario AS UsuarioCriacao ON UsuarioCriacao.Id = ${descricaoTipo}.IdUsuarioCriacao
-                                        LEFT JOIN status${descricaoTipo} AS Status ON Status.Id = ${descricaoTipo}.IdStatusTicket
+                                        LEFT JOIN status${descricaoTipo} AS Status ON Status.Id = ${descricaoTipo}.IdStatus${descricaoTipo}
                                         LEFT JOIN Usuario AS UsuarioAlteracao ON UsuarioAlteracao.Id = ${descricaoTipo}.IdusuarioAlteracao
                                         LEFT JOIN Usuario AS Proprietario ON Proprietario.Id = ${descricaoTipo}.IdProprietario
                                         WHERE ${descricaoTipo}.Id = ${id}`);
@@ -37,7 +41,7 @@ const getById = async (req, res) => {
     const groups = await executeQuery(`SELECT 
                                             Id,IdConta,IdTipoCadastro,Ordem,1 Ativo,Nome 
                                        FROM propriedadegrupo 
-                                       where IdTipoCadastro = 6
+                                       where IdTipoCadastro = ${tipo}
                                        order by propriedadegrupo.Ordem`);
 
     for (let index = 0; index < groups.length; index++) {
@@ -49,7 +53,8 @@ const getById = async (req, res) => {
                                                         propriedade.Ordem, propriedade.IsRequired,
                                                         propriedaderesposta${descricaoTipo}.Resposta 
                                                 from propriedade 
-                                                left join propriedaderesposta${descricaoTipo} on propriedade.Id = propriedaderesposta${descricaoTipo}.IdPropriedade  and propriedaderespostaticket.Iduser = ${id}
+                                                left join propriedaderesposta${descricaoTipo} on propriedade.Id = propriedaderesposta${descricaoTipo}.IdPropriedade 
+                                                                                 and propriedaderesposta${descricaoTipo}.Iduser = ${id}
                                                 where IdPropriedadeGrupo = ${group.Id}
                                                 order by propriedade.Ordem  `);
 

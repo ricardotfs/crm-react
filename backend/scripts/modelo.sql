@@ -108,6 +108,29 @@ CREATE TABLE `statusphone` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `phone` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `IdConta` int DEFAULT NULL,
+  `IdContato` int DEFAULT NULL,
+  `IdEmpresa` int DEFAULT NULL,
+  `IdUsuarioCriacao` int DEFAULT NULL,
+  `DataCriacao` datetime DEFAULT NULL,
+  `IdUsuarioAlteracao` int DEFAULT NULL,
+  `DataAlteracao` datetime DEFAULT NULL,
+  `Token` varchar(55) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `IdProprietario` int DEFAULT NULL,
+  `IdStatus` int DEFAULT NULL,
+  `HelthScore` int DEFAULT NULL,
+  `IdStatusphone` int DEFAULT NULL,
+  `IdFila` int DEFAULT NULL,
+  `IdModulo` int DEFAULT NULL,
+  `Modulo` varchar(255) DEFAULT NULL,
+  `DataConclusao` datetime DEFAULT NULL,
+  `Dptphone` varchar(50) DEFAULT NULL,
+  `DataVencimento` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 SELECT propriedaderespostaticket.IdUser,
        MAX(CASE WHEN propriedade.Nome = 'Nome' THEN propriedaderespostaticket.Resposta END) AS Nome,
