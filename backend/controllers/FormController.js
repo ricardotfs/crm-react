@@ -89,7 +89,11 @@ const update = async (req, res) => {
         descricaoTipo = 'Ticket';
         descricaoToken = 'TKT';
     }
-   else if (tipo === 1){
+    else if (tipo === 4){
+        descricaoTipo = 'phone';
+        descricaoToken = 'PH';
+    }
+    else if (tipo === 1){
         descricaoTipo = 'Contato';
         descricaoToken = 'CN';
     }
