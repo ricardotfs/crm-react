@@ -30,6 +30,10 @@ const DynamicGrid = ({ data, columns }) => {
         setCurrentPage(page);
     };
 
+    const onDetails = (item) =>{
+
+        console.log(item);
+    }
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     const displayedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
@@ -45,7 +49,8 @@ const DynamicGrid = ({ data, columns }) => {
             <table className="dynamic-grid">
                 <thead>
                     <tr>
-                        <th>Select</th>
+                        <th></th>
+                        <th></th>
                         {columns.map((col, idx) => (
                             <th key={idx}>{col}</th>
                         ))}
@@ -60,6 +65,11 @@ const DynamicGrid = ({ data, columns }) => {
                                     checked={selectedRows.includes(item.id)}
                                     onChange={() => handleSelectRow(item.id)}
                                 />
+                            </td>
+                            <td>
+                                <button onClick={() => onDetails(item)} className="details-button">
+                                    Details
+                                </button>
                             </td>
                             {columns.map((col, idx) => (
                                 <td key={idx}>{item[col]}</td>
