@@ -75,3 +75,6 @@
 .details-button:hover {
     background-color: #1a7ce6;
 }
+.action-crm:hover {
+    cursor: pointer;
+}

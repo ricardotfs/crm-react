@@ -60,7 +60,7 @@ const DynamicGrid = ({ data, columns }) => {
                     {displayedData.map((item, idx) => (
                         <tr key={idx}>
                             <td>
-                                <input
+                                <input className='action-crm'
                                     type="checkbox"
                                     checked={selectedRows.includes(item.id)}
                                     onChange={() => handleSelectRow(item.id)}
