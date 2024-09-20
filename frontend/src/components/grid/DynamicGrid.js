@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DynamicGrid.css';
 
 const DynamicGrid = ({ data, columns }) => {
+    const navigete = useNavigate();
     const [filterText, setFilterText] = useState('');
     const [filteredData, setFilteredData] = useState(data);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -32,7 +34,7 @@ const DynamicGrid = ({ data, columns }) => {
 
     const onDetails = (item) =>{
 
-        console.log(item);
+        return navigete(`/ticket/${item.Id}`)
     }
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     const displayedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -46,6 +48,7 @@ const DynamicGrid = ({ data, columns }) => {
                 onChange={(e) => setFilterText(e.target.value)}
                 className="filter-input"
             />
+            <div className='scroll'>
             <table className="dynamic-grid">
                 <thead>
                     <tr>
@@ -78,6 +81,7 @@ const DynamicGrid = ({ data, columns }) => {
                     ))}
                 </tbody>
             </table>
+            </div>
             <div className="pagination">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                     <button

@@ -1,19 +1,25 @@
 .grid-container {
+    max-width: 90%;
     margin: 2rem auto;
     font-family: Arial, sans-serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
-}
 
+}
+.scroll{
+    overflow-y: scroll;
+    height: 320px;
+}
 .dynamic-grid {
     width: 100%;
     border-collapse: collapse;
+    max-height: 400px; 
 }
 
 .dynamic-grid th,
 .dynamic-grid td {
-    padding: 12px;
+    padding: 1px;
     border: 1px solid #ddd;
     text-align: center;
 }
