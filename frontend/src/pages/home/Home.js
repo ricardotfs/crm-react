@@ -8,18 +8,27 @@ import { gridData } from '../../slice/gridSlices';
 
 const Home = () => {
   const dispatch = useDispatch();
-  
+  const [page, setPage] = useState(0);
   const { rows , totalCount, loading, columns } = useSelector((state) => state.grid)
 
+  const updatePage = (newPage) =>{
+      setPage(newPage) ;
+  }  
+
   useEffect(() =>{
-    const json = { idTipoCadastro: 6, page: 0, sizePage: 10, sorting: '', filter: '' };
+    const json = { idTipoCadastro: 6, page: page, sizePage: 2, sorting: '', filter: '' };
     dispatch(gridData(json));
   },[])
+  
+  useEffect(() =>{
+    const json = { idTipoCadastro: 6, page: page, sizePage: 2, sorting: '', filter: '' };
+    dispatch(gridData(json));
+  },[page])
 
   return (
     <div id='home'>
         <h1>Home</h1>
-        <DynamicGrid data={rows} columns={columns} />
+        <DynamicGrid data={rows} columns={columns} totalCount={totalCount} updatePage={updatePage}/>
     </div>
   )
 }

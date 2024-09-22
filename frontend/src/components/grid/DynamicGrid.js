@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DynamicGrid.css';
 
-const DynamicGrid = ({ data, columns }) => {
+const DynamicGrid = ({ data, columns,totalCount,updatePage }) => {
     const navigete = useNavigate();
     const [filterText, setFilterText] = useState('');
     const [filteredData, setFilteredData] = useState(data);
     const [selectedRows, setSelectedRows] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 5;
+    const rowsPerPage = 2;
 
     useEffect(() => {
         setFilteredData(
@@ -30,13 +30,14 @@ const DynamicGrid = ({ data, columns }) => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
+        updatePage(page);
     };
 
     const onDetails = (item) =>{
 
         return navigete(`/ticket/${item.Id}`)
     }
-    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    const totalPages = Math.ceil(totalCount / rowsPerPage);
     const displayedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
     return (
@@ -65,9 +66,9 @@ const DynamicGrid = ({ data, columns }) => {
                             <td>
                                 <input className='action-crm'
                                     type="checkbox"
-                                    checked={selectedRows.includes(item.id)}
-                                    onChange={() => handleSelectRow(item.id)}
-                                />
+                                    checked={selectedRows.includes(item.Id)}
+                                    onChange={() => handleSelectRow(item.Id)}
+                                    />
                             </td>
                             <td>
                                 <button onClick={() => onDetails(item)} className="details-button">

@@ -4,7 +4,13 @@ const {executeQuery} = require('../config/db.js')
 const getDynamicColumns = (result) => {
     if(result.length  == 0)
         return ['Id'];
-    return Object.keys(result[0]);
+    let columns = Object.keys(result[0]);
+
+    columns = columns.filter((el) => {
+        if(el !== 'Id')
+            return el;
+    });
+    return columns;
   }
 
 const getAllActivity = async(req,res) =>{
