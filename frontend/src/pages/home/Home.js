@@ -21,7 +21,7 @@ const Home = () => {
   },[])
   
   useEffect(() =>{
-    const json = { idTipoCadastro: 6, page: page, sizePage: 2, sorting: '', filter: '' };
+    const json = { idTipoCadastro: 6, page: (page > 0 ? (page -1) : page), sizePage:2 , sorting: '', filter: '' };
     dispatch(gridData(json));
   },[page])
 

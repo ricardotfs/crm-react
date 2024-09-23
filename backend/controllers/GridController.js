@@ -57,7 +57,7 @@ const getAllActivity = async(req,res) =>{
                         ) as temp
                             where 1=1 ${filter}
                            --  order by temp.${column} ${direction}
-                            Limit ${(page * sizePage)}, ${sizePage};`;       
+                            Limit ${page}, ${sizePage};`;       
 
     let queryCount  = ` SELECT count(1) totalCount FROM (
                             SELECT 
@@ -74,7 +74,7 @@ const getAllActivity = async(req,res) =>{
     const result = await executeQuery(query);
     const totalCount = await executeQuery(queryCount);
 
-    // console.log(query);
+     console.log(query);
 
    return res.status(200).json({
         columns:getDynamicColumns(result),
