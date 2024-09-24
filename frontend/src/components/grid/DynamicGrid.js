@@ -1,24 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DynamicGrid.css';
+import { useSelector, useDispatch } from 'react-redux'
+//slice
+import { gridData } from '../../slice/gridSlices';
 
-const DynamicGrid = ({ data, columns,totalCount,updatePage }) => {
+const DynamicGrid = () => {
+
+    const { rows , loading, columns } = useSelector((state) => state.grid)
     const navigete = useNavigate();
+    const dispatch = useDispatch();
+
+    const [cols, setCols] = useState([]);
+    const [totalCount, setTotalCount] = useState(0);
+    const [filteredData, setFilteredData] = useState([]);
+
     const [filterText, setFilterText] = useState('');
-    const [filteredData, setFilteredData] = useState(data);
     const [selectedRows, setSelectedRows] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 2;
 
+    useEffect(() =>{
+        setCols(columns);
+        setTotalCount(totalCount);
+        setFilteredData(rows);
+      },[rows])
+
+    useEffect(() =>{
+        const json = { idTipoCadastro: 6, page: currentPage, sizePage: 2, sorting: '', filter: '' };
+        dispatch(gridData(json));
+      },[]);
+
+      useEffect(() =>{
+        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:2 , sorting: '', filter: '' };
+        dispatch(gridData(json));
+      },[currentPage]);
+
     useEffect(() => {
         setFilteredData(
-            data.filter(item =>
-                columns.some(col =>
+            filteredData.filter(item =>
+                cols.some(col =>
                     item[col].toString().toLowerCase().includes(filterText.toLowerCase())
                 )
             )
         );
-    }, [filterText, data, columns]);
+    }, [filterText, filteredData, cols]);
 
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -30,7 +56,6 @@ const DynamicGrid = ({ data, columns,totalCount,updatePage }) => {
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        updatePage(page);
     };
 
     const onDetails = (item) =>{
@@ -55,7 +80,7 @@ const DynamicGrid = ({ data, columns,totalCount,updatePage }) => {
                     <tr>
                         <th></th>
                         <th></th>
-                        {columns.map((col, idx) => (
+                        {cols.map((col, idx) => (
                             <th key={idx}>{col}</th>
                         ))}
                     </tr>
@@ -75,7 +100,7 @@ const DynamicGrid = ({ data, columns,totalCount,updatePage }) => {
                                     Details
                                 </button>
                             </td>
-                            {columns.map((col, idx) => (
+                            {cols.map((col, idx) => (
                                 <td key={idx}>{item[col]}</td>
                             ))}
                         </tr>
