@@ -7,12 +7,12 @@ import { gridData } from '../../slice/gridSlices';
 
 const DynamicGrid = () => {
 
-    const { rows , loading, columns } = useSelector((state) => state.grid)
+    const { rows , totalCount:total,loading, columns } = useSelector((state) => state.grid)
     const navigete = useNavigate();
     const dispatch = useDispatch();
 
     const [cols, setCols] = useState([]);
-    const [totalCount, setTotalCount] = useState(0);
+    const [totalCount, setTotalCount] = useState(total);
     const [filteredData, setFilteredData] = useState([]);
 
     const [filterText, setFilterText] = useState('');
@@ -22,7 +22,7 @@ const DynamicGrid = () => {
 
     useEffect(() =>{
         setCols(columns);
-        setTotalCount(totalCount);
+        setTotalCount(total);
         setFilteredData(rows);
       },[rows])
 
@@ -44,7 +44,7 @@ const DynamicGrid = () => {
                 )
             )
         );
-    }, [filterText, filteredData, cols]);
+    }, [filterText]);
 
     const handleSelectRow = (id) => {
         if (selectedRows.includes(id)) {
@@ -63,7 +63,7 @@ const DynamicGrid = () => {
         return navigete(`/ticket/${item.Id}`)
     }
     const totalPages = Math.ceil(totalCount / rowsPerPage);
-    const displayedData = filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+    const displayedData = filteredData;
 
     return (
         <div className="grid-container">
