@@ -16,6 +16,22 @@ const getDynamicColumns = (result) => {
 const getAllActivity = async(req,res) =>{
 
     const {idTipoCadastro,page,sizePage,sorting,filter} = req.body;     
+    let descricaoTipo = 'Ticket';
+    let descricaoToken = 'TKT';
+    if (idTipoCadastro === 6){
+        descricaoTipo = 'Ticket';
+        descricaoToken = 'TKT';
+    }
+    else if (idTipoCadastro === 4){
+        descricaoTipo = 'phone';
+        descricaoToken = 'PH';
+    }
+    else if (idTipoCadastro === 1){
+        descricaoTipo = 'Contato';
+        descricaoToken = 'CN';
+    }
+
+
     const column = '';//sorting[0].columnName;
     const direction = '';//sorting[0].direction;;
 
@@ -39,10 +55,10 @@ const getAllActivity = async(req,res) =>{
         return res.status(200).json([]);
     }
 
-    let queryFields = ' ticket.Token,ticket.Id';
+    let queryFields = ` ${descricaoTipo}.Token,${descricaoTipo}.Id`;
 
     fields.forEach(item => {
-        queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderespostaticket.Resposta END) AS `' + item.Nome + '` '
+        queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderesposta' + descricaoTipo + '.Resposta END) AS `' + item.Nome + '` '
     });
 
     let query  = ` 	SELECT * FROM (
@@ -50,10 +66,10 @@ const getAllActivity = async(req,res) =>{
                             ${queryFields}
                         from propriedadegrupo 
                             inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                            inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
-                            inner join ticket on ticket.id = propriedaderespostaticket.IdUser
+                            inner join propriedaderesposta${descricaoTipo} on propriedaderesposta${descricaoTipo}.IdPropriedade = propriedade.Id
+                            inner join ${descricaoTipo} on ${descricaoTipo}.id = propriedaderesposta${descricaoTipo}.IdUser
                         where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
-                        GROUP BY propriedaderespostaticket.IdUser
+                        GROUP BY propriedaderesposta${descricaoTipo}.IdUser
                         ) as temp
                             where 1=1 ${filter}
                            --  order by temp.${column} ${direction}
@@ -64,10 +80,10 @@ const getAllActivity = async(req,res) =>{
                                 ${queryFields}
                             from propriedadegrupo 
                                 inner join propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                inner join propriedaderespostaticket on propriedaderespostaticket.IdPropriedade = propriedade.Id
-                                inner join ticket on ticket.id = propriedaderespostaticket.IdUser
+                                inner join propriedaderesposta${descricaoTipo} on propriedaderesposta${descricaoTipo}.IdPropriedade = propriedade.Id
+                                inner join ${descricaoTipo} on ${descricaoTipo}.id = propriedaderesposta${descricaoTipo}.IdUser
                             where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
-                            GROUP BY propriedaderespostaticket.IdUser
+                            GROUP BY propriedaderesposta${descricaoTipo}.IdUser
                             ) as temp
                                 where 1=1 ${filter}`;
 

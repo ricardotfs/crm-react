@@ -18,7 +18,7 @@ const DynamicGrid = () => {
     const [filterText, setFilterText] = useState('');
     const [selectedRows, setSelectedRows] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 2;
+    const rowsPerPage = 3;
 
     useEffect(() =>{
         setCols(columns);
@@ -27,12 +27,12 @@ const DynamicGrid = () => {
       },[rows])
 
     useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: currentPage, sizePage: 3, sorting: '', filter: '' };
+        const json = { idTipoCadastro: 6, page: currentPage, sizePage: rowsPerPage, sorting: '', filter: '' };
         dispatch(gridData(json));
       },[]);
 
       useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:3 , sorting: '', filter: '' };
+        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:rowsPerPage , sorting: '', filter: '' };
         dispatch(gridData(json));
       },[currentPage]);
 
