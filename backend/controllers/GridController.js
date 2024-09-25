@@ -57,7 +57,7 @@ const getAllActivity = async(req,res) =>{
                         ) as temp
                             where 1=1 ${filter}
                            --  order by temp.${column} ${direction}
-                            Limit ${page}, ${sizePage};`;       
+                            Limit ${page * sizePage}, ${sizePage};`;       
 
     let queryCount  = ` SELECT count(1) totalCount FROM (
                             SELECT 

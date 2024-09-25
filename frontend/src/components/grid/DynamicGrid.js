@@ -27,12 +27,12 @@ const DynamicGrid = () => {
       },[rows])
 
     useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: currentPage, sizePage: 2, sorting: '', filter: '' };
+        const json = { idTipoCadastro: 6, page: currentPage, sizePage: 3, sorting: '', filter: '' };
         dispatch(gridData(json));
       },[]);
 
       useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:2 , sorting: '', filter: '' };
+        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:3 , sorting: '', filter: '' };
         dispatch(gridData(json));
       },[currentPage]);
 
