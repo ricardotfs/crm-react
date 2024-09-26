@@ -70,7 +70,7 @@ const NavbarLateral = () => {
 
                                 <li>
                                     <a href="#">
-                                        <Link to={'/'}>
+                                        <Link to={'/ticket'}>
                                             <i class="demo-pli-receipt-4"></i>
                                             <span class="menu-title">Ticket</span>
                                         </Link>

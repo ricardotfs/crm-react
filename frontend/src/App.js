@@ -7,6 +7,7 @@ import Login from './pages/auth/Login';
 import { useAuth } from './hooks/useAuth';
 import Navbar from './components/navbar/Navbar';
 import NavbarLateral from './components/navbar/NavbarLateral';
+import TicketDetails from './pages/ticket/TicketDetails';
 import Ticket from './pages/ticket/Ticket';
 import Phone from './pages/phone/Phone';
 
@@ -23,9 +24,9 @@ function App() {
         <Navbar />
         <div className='container'>
           <Routes>
-            <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/ticket/:id' element={<Ticket />} />
+            <Route path='/Ticket' element={<Ticket />} />
+            <Route path='/ticket/:id' element={<TicketDetails />} />
             <Route path='/phone/:id' element={<Phone />} />
           </Routes>
         </div>

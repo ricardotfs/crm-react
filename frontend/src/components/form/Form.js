@@ -212,7 +212,7 @@ const Form = ({ type, typeName }) => {
                                 <button onClick={hanbleUpdate} class="btn btn-primary margin-form " type="reset">Salvar</button>
 
 
-                                <Link to={'/'}>
+                                <Link to={`/${typeName}`}>
                                     <button class="btn btn-primary margin-form " type="reset">Fechar</button>
                                 </Link>
                             </div>
