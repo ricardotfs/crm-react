@@ -7,9 +7,10 @@ import Login from './pages/auth/Login';
 import { useAuth } from './hooks/useAuth';
 import Navbar from './components/navbar/Navbar';
 import NavbarLateral from './components/navbar/NavbarLateral';
-import TicketDetails from './pages/ticket/TicketDetails';
+import TicketDetail from './pages/ticket/TicketDetail';
 import Ticket from './pages/ticket/Ticket';
 import Phone from './pages/phone/Phone';
+import PhoneDetail from './pages/phone/PhoneDetail';
 
 function App() {
   const { auth, loading } = useAuth();
@@ -25,8 +26,13 @@ function App() {
         <div className='container'>
           <Routes>
             <Route path='/login' element={<Login />} />
-            <Route path='/Ticket' element={<Ticket />} />
-            <Route path='/ticket/:id' element={<TicketDetails />} />
+
+            <Route path='/ticket' element={<Ticket />} />
+            <Route path='/ticket/:id' element={<TicketDetail />} />
+
+            <Route path='/phone' element={<Phone />} />
+            <Route path='/phone/:id' element={<PhoneDetail />} />
+
             <Route path='/phone/:id' element={<Phone />} />
           </Routes>
         </div>

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 //slice
 import { gridData } from '../../slice/gridSlices';
 
-const DynamicGrid = () => {
+const DynamicGrid = ({idTipoCadastro,type}) => {
 
     const { rows , totalCount:total,loading, columns } = useSelector((state) => state.grid)
     const navigete = useNavigate();
@@ -27,12 +27,12 @@ const DynamicGrid = () => {
       },[rows])
 
     useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: currentPage, sizePage: rowsPerPage, sorting: '', filter: '' };
+        const json = { idTipoCadastro: idTipoCadastro, page: currentPage, sizePage: rowsPerPage, sorting: '', filter: '' };
         dispatch(gridData(json));
       },[]);
 
       useEffect(() =>{
-        const json = { idTipoCadastro: 6, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:rowsPerPage , sorting: '', filter: '' };
+        const json = { idTipoCadastro: idTipoCadastro, page: (currentPage > 0 ? (currentPage -1) : currentPage), sizePage:rowsPerPage , sorting: '', filter: '' };
         dispatch(gridData(json));
       },[currentPage]);
 
@@ -59,8 +59,8 @@ const DynamicGrid = () => {
     };
 
     const onDetails = (item) =>{
-
-        return navigete(`/ticket/${item.Id}`)
+        
+        return navigete(`/${type}/${item.Id}`)
     }
     const totalPages = Math.ceil(totalCount / rowsPerPage);
     const displayedData = filteredData;

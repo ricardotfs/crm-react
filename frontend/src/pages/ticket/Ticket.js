@@ -4,10 +4,12 @@ import './Ticket.css'
 import DynamicGrid from '../../components/grid/DynamicGrid';
 
 const Ticket = () => {
-
+    const idTipoCadastro = 6;
+    const type = 'ticket';
+    
     return (
         <div >
-            <DynamicGrid />
+            <DynamicGrid idTipoCadastro={idTipoCadastro} type={type}/>
         </div>
       )
 };

@@ -3,7 +3,7 @@ import './Ticket.css'
 //Components
 import Form from '../../components/form/Form'
 
-const TicketDetails = () => {
+const TicketDetail = () => {
     const type = 6;
     const typeName = 'ticket';
     return (
@@ -13,4 +13,4 @@ const TicketDetails = () => {
     );
 };
 
-export default TicketDetails;
+export default TicketDetail;

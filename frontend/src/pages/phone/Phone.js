@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react'
 import './Phone.css'
 //Components
-import Form from '../../components/form/Form'
+import DynamicGrid from '../../components/grid/DynamicGrid';
 
-const Phone = () =>{
-    const type = 4;
-    const typeName = 'phone';
-
+const Phone = () => {
+    const idTipoCadastro = 4;
+    const type = 'phone';
+    
     return (
-        <>
-            <Form type={type} typeName={typeName}/> 
-        </>
-    )
-}
+        <div >
+            <DynamicGrid idTipoCadastro={idTipoCadastro} type={type}/>
+        </div>
+      )
+};
 
 export default Phone;

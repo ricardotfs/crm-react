@@ -76,6 +76,14 @@ const NavbarLateral = () => {
                                         </Link>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#">
+                                        <Link to={'/phone'}>
+                                            <i class="demo-pli-receipt-4"></i>
+                                            <span class="menu-title">Telefone</span>
+                                        </Link>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
