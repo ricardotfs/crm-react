@@ -31,22 +31,6 @@ const getAllActivity = async(req,res) =>{
         descricaoToken = 'CN';
     }
 
-    console.log(`
-
-                                        SELECT 										
-                                            propriedade.Nome,
-                                            propriedade.Nome Title,
-                                            propriedade.Id IdPropriedade,
-                                            propriedade.IdPropriedadeGrupo idPropriedadeGrupo,
-                                            propriedadegrupo.Nome nomeGrupo,
-                                            IFNULL(propriedadegrupo.Ordem,0) GrupoOrdem,
-                                            IFNULL(propriedade.Ordem,0) PropriedadeOrdem,
-                                            '' resposta
-                                        FROM propriedadegrupo 
-                                            INNER JOIN propriedade  on propriedadegrupo.Id = propriedade.IdPropriedadeGrupo
-                                            where propriedadegrupo.idTipoCadastro in(${idTipoCadastro}) 
-                                            and propriedade.IsGrid = 1`);
-
     const column = '';//sorting[0].columnName;
     const direction = '';//sorting[0].direction;;
 
@@ -106,7 +90,6 @@ const getAllActivity = async(req,res) =>{
     const result = await executeQuery(query);
     const totalCount = await executeQuery(queryCount);
 
-    
 
    return res.status(200).json({
         columns:getDynamicColumns(result),
