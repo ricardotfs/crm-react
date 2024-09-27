@@ -37,13 +37,18 @@ const DynamicGrid = ({idTipoCadastro,type}) => {
       },[currentPage]);
 
     useEffect(() => {
-        setFilteredData(
-            filteredData.filter(item =>
-                cols.some(col =>
-                    item[col].toString().toLowerCase().includes(filterText.toLowerCase())
-                )
-            )
-        );
+
+        if(filterText.length < 5)
+            return;
+        
+        const json = { 
+                        idTipoCadastro: idTipoCadastro, 
+                        page: (currentPage > 0 ? (currentPage -1) : currentPage), 
+                        sizePage:rowsPerPage, 
+                        sorting: '', 
+                        filter: filterText.toLowerCase() };
+        dispatch(gridData(json));
+        
     }, [filterText]);
 
     const handleSelectRow = (id) => {

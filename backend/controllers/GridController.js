@@ -2,7 +2,7 @@
 const {executeQuery} = require('../config/db.js') 
 
 const getDynamicColumns = (result) => {
-    if(result.length  == 0)
+    if(result === undefined || result.length  == 0)
         return ['Id'];
     let columns = Object.keys(result[0]);
 
@@ -60,7 +60,8 @@ const getAllActivity = async(req,res) =>{
     fields.forEach(item => {
         queryFields = queryFields + ',MAX(CASE WHEN propriedade.Nome = ' + `'${item.Nome}'` + ' THEN propriedaderesposta' + descricaoTipo + '.Resposta END) AS `' + item.Nome + '` '
     });
-
+    
+    
     let query  = ` 	SELECT * FROM (
                         SELECT 
                             ${queryFields}
@@ -71,10 +72,11 @@ const getAllActivity = async(req,res) =>{
                         where propriedadegrupo.idTipoCadastro in(${idTipoCadastro})
                         GROUP BY propriedaderesposta${descricaoTipo}.IdUser
                         ) as temp
-                            where 1=1 ${filter}
+                            where 1=1 -- ${descricaoTipo}.Token like '%${filter}%'
                            --  order by temp.${column} ${direction}
                             Limit ${page * sizePage}, ${sizePage};`;       
 
+    
     let queryCount  = ` SELECT count(1) totalCount FROM (
                             SELECT 
                                 ${queryFields}

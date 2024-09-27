@@ -101,7 +101,7 @@ const update = async (req, res) => {
     let idAtiv = id;
 
     if (idAtiv == 0) {
-        let result = await executeQueryReturn(`INSERT INTO ${descricaoTipo} (IdConta,DataCriacao,Token,IdStatus${descricaoTipo} VALUES(${idConta},NOW(),'',1);`);
+        let result = await executeQueryReturn(`INSERT INTO ${descricaoTipo} (IdConta,DataCriacao,Token,IdStatus${descricaoTipo}) VALUES(${idConta},NOW(),'',1);`);
         idAtiv = result[0].lastInsertId;
 
         executeQuery(`UPDATE ${descricaoTipo} set Token  = '${descricaoToken}${idAtiv.toString().padStart(5, '0')}' where id = ${idAtiv}`);
