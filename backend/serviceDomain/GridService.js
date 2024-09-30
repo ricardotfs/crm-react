@@ -113,6 +113,17 @@ class GridService {
         return await executeQuery(queryCount);
     }
 
+     getDynamicColumns(result) {
+        if(result === undefined || result.length  == 0)
+            return ['Id'];
+        let columns = Object.keys(result[0]);
+    
+        columns = columns.filter((el) => {
+            if(el !== 'Id')
+                return el;
+        });
+        return columns;
+      }
 
     async getAllActivity(req, res) {
         const fields = await this.getFields();
@@ -125,25 +136,16 @@ class GridService {
 
         const result = await this.getQueryResult(queryFields, whereClause);
         const totalCount = await this.getQueryCount(queryFields);
+        const columns = this.getDynamicColumns(result);
 
         return res.status(200).json({
-            columns: getDynamicColumns(result),
+            columns: columns,
             rows: result,
             totalCount: totalCount[0].totalCount,
         });
     }
 }
 
- const getDynamicColumns = (result) => {
-    if(result === undefined || result.length  == 0)
-        return ['Id'];
-    let columns = Object.keys(result[0]);
 
-    columns = columns.filter((el) => {
-        if(el !== 'Id')
-            return el;
-    });
-    return columns;
-  }
 
 module.exports = GridService;
