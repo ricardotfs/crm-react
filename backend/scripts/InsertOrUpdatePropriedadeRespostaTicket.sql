@@ -1,4 +1,6 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrUpdatePropriedadeRespostaTicket`(
+DELIMITER //
+
+CREATE PROCEDURE `InsertOrUpdatePropriedadeRespostaTicket`(
     IN p_IdPropriedade INT,
     IN p_IdConta INT,
     IN p_IdUser INT,
@@ -7,25 +9,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrUpdatePropriedadeRespostaTi
 BEGIN
     DECLARE existingId INT;
 
-    -- Check if record with given IdPropriedade exists
+    -- For example, check if the record exists in a table, e.g., PropriedadeResposta
     SELECT Id INTO existingId
     FROM propriedaderespostaticket
-    WHERE 
-		IdPropriedade = p_IdPropriedade
-        and IdUser = p_IdUser;
+    WHERE IdPropriedade = p_IdPropriedade
+      AND IdConta = p_IdConta
+      AND IdUser = p_IdUser
+    LIMIT 1;
 
-    -- If record exists, update it; otherwise, insert a new record
+    -- If the record exists, update it; otherwise, insert a new one
     IF existingId IS NOT NULL THEN
-        -- Update existing record
         UPDATE propriedaderespostaticket
-        SET 
-            Resposta = p_Resposta,
-            DataResposta = now()
-        WHERE IdPropriedade = p_IdPropriedade
-			and IdUser = p_IdUser;
+        SET Resposta = p_Resposta
+        WHERE Id = existingId;
     ELSE
-        -- Insert new record
-        INSERT INTO propriedaderespostaticket (IdPropriedade, IdConta, IdUser, Resposta, DataResposta)
-        VALUES (p_IdPropriedade, p_IdConta, p_IdUser, p_Resposta, now());
+        INSERT INTO propriedaderespostaticket (IdPropriedade, IdConta, IdUser, Resposta)
+        VALUES (p_IdPropriedade, p_IdConta, p_IdUser, p_Resposta);
     END IF;
-END
+END //
+
+DELIMITER ;
